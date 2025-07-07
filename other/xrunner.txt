@@ -1,0 +1,191 @@
+app xrunner
+{
+	name: 'XRunner';
+}
+
+environment dev
+{
+	app: webapp;
+}
+
+environment qa
+{
+	app: webapp;
+}
+
+environment prod
+{
+	app: webapp;
+	webAppBucketUrl: 's3://webapp-bucket-prod.s3.amazonaws.com';
+	webAppDir: '/path/to/app';
+}
+
+resource webapp_html
+{
+	type: file (not prod) // or (default) or no hint at all means (default)
+	path: '{{webAppBucketUrl}}{{webAppDir}}webapp.html' (default);
+
+	type: s3 object (prod);
+	path: '{{webAppBucketUrl}}{{webAppDir}}webapp.html' (prod); // environment hint	or override
+
+	command: build_webapp_html; // If no command is defined, then build_webapp_html is the assumed default if it exists.
+}
+
+command build_webapp_html
+{
+	agent: 'dotnet_framework'; // Any agent that has dotnet_framework capabilities can run this command.
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/subdir/*.csc';
+	arg: '-debug' (environment: not prod);
+	arg: '-doc' (environment: not prod);
+	arg: '-recurse:*.cs';
+}
+
+object webapp_css
+{
+	type: s3 object;
+	path: '{{webappBucketUrl}}/webapp.css';
+	path: '{{webappBucketUrl}}/some/prod/url/webapp.css' (prod);
+}
+
+command build_webapp_css
+{
+	agent: 'dotnet_framework'; // Any agent that has dotnet_framework capabilities can run this command.
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/subdir/*.csc';
+	arg: '-debug' (environment: not prod);
+	arg: '-doc' (environment: not prod);
+	arg: '-recurse:*.cs';
+}
+
+webappTriggerSchedule
+{
+	//
+	// JUST USE THIS SCHEDULE.
+	//
+	include: everyDayAtMidnightSchedule;
+	include: everyDayAtNoonSchedule;
+	exclude: holidaySchedule;
+	
+	//
+	// YOU CAN ALSO ADD TO THIS SCHEDULE AND THIS WILL FIRE IN ADDITION TO EVERY DAY AT MIDNIGHT.
+	//
+	timeZone: EST;
+	startDateTime: 2025-06-27;
+	endDateTime: 2025-06-27;
+	include: 2025-06-28 12:00:00 PM EST;
+	exclude: 2025-06-30 12:00:00 AM EST'
+	year: 2025;
+	yearMod: 2;
+	month: 5;
+	monthMod: 5;
+	day: lastDayOfMonth;
+	dayMod: 15
+	dayOfYear: 10;
+	hour: 0, 12 AM, 13;
+	hourMod: 12;
+	hour: 12;
+	minute: 0, 30;
+	minuteMod: 30;
+	second: 0, 10, 20, 30, 40, 50
+	secondMod: 10;
+}
+
+
+holidaySchedule
+{
+	include: holiday2025Schedule;
+	include: holiday2026Schedule;
+	include: holiday2027Schedule;
+}
+
+
+holiday2025Schedule
+{
+}
+
+
+everyDayAtMidnightSchedule
+{
+}
+
+
+app_exe
+{
+	type: file;
+	path: '/my/app.exe';
+	child: app_dll (FAST_BUILD_HINT); // Fast build hints may not require a full build, such as installing an new DLL.
+	child: app_source_code_set;
+	child: app_package_set;
+	
+	//
+	// DEFAULT BUILD IF ANY CHILD CHANGES AND NO BUILD HINT IS PROVIDED.
+	//
+	build: app_exe_build;
+	test: app_exe_test;
+}
+
+app_exe_build
+{
+	type: command;
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/sub/*.csc';
+}
+
+app_exe_test
+{
+	type: command;
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/sub/*.csc';
+}
+
+app_dll
+{
+	type: file;
+	path: '/my/app.dll';
+}
+
+app_source_code_set
+{
+	type: glob;
+	include: '/my/source/app/**/*.cs';
+	exclude: '/my/source/app/*.csproj';
+	exclude: '/my/source/app/*.sln';
+	trigger: md5;
+	trigger: sha1;
+	trigger: last_updated_timestamp;
+}
+
+app_package_set
+{
+	type: file;
+	path: '/my/app.dll';
+	child: app_exe;
+}
+
+repo
+{
+	type: git;
+	path: 'http://www.github.com/cwses1/buildwave';
+	trigger: manual;
+	trigger-frequency: 1m;
+}
+
+package
+{
+	type: nuget;
+	path: 'http://www.github.com/cwses1/buildwave';
+}
+
+messageModelsLib
+{
+	type: artifactory;
+	path: 'https://'
+	trigger: md5;
+	trigger: sha1;
+	trigger: last_updated_timestamp;
+}

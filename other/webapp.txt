@@ -1,0 +1,102 @@
+// touch atomlab;
+// touch webapp;
+
+solution atomlab
+{
+	// Contains default parameters across all environments.
+	webapp-bucket-url: 's3://webapp-bucket-prod.s3.amazonaws.com';
+	webapp-dir: '/path/to/app';
+	webapi-config-file-path: ''; //
+}
+
+environment dev
+{
+	solution: atomlab; // The real symbol name of the environment will be atomlab-dev.
+}
+
+environment qa
+{
+	solution: atomlab; // The real symbol name of the environment will be atomlab-qa.
+}
+
+environment prod
+{
+	solution: atomlab;
+
+	webapp-bucket-url: 's3://webapp-bucket-prod.s3.amazonaws.com';
+	webapp-dir: '/path/to/app';
+}
+
+app webapp // an app is a top-level, named resource that when touched, builds all child resources.
+{
+	// type: app
+	// path: //;
+	name: 'React Web App';
+	child: webapp-repo;
+	task: build-webapp;
+	solution: atomlab;
+}
+
+resource webapp-repo
+{
+	type: git;
+	path: 'http://www.github.com/cwses1/buildwave';
+	trigger: manual;
+	//trigger-frequency: 1m;
+}
+
+task build-webapp
+{	
+	task: build-webapp-html; // Tasks can contain other tasks for simplicity.
+	task: build-webapp-css; // Sibling tasks are always run asychronously, child tasks are run synchronously.
+	task: build-webapp-js;
+	task: build-webapp-config;
+	task: build-webapp-images;
+}
+
+task build-webapp-html
+{
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/subdir/*.csc';
+	arg: '-debug' (environment = dev or environment = qa);
+	arg: '-doc' (environment = dev);
+	arg: '-recurse:*.cs';
+	//capability: 'dotnet_framework'; // Any agent that has dotnet_framework capabilities can run this command.
+}
+
+
+resource webapp-html
+{
+	type: file (environment != prod); // or (default) or no hint at all means (default)
+	path: '{{webAppBucketUrl}}{{webAppDir}}webapp.html';
+
+	type: s3-object (environment = prod);
+	path: '{{webAppBucketUrl}}{{webAppDir}}webapp.html' (environment = prod); // environment hint	or override
+
+	command: build-webapp-html; // If no command is defined, then build_webapp_html is the assumed default if it exists.
+}
+
+resource webapp-css
+{
+	type: s3-object;
+	path: '{{webappBucketUrl}}/webapp.css';
+	path: '{{webappBucketUrl}}/some/prod/url/webapp.css' (environment = prod);
+}
+
+task build-webapp-css
+{
+	agent: 'dotnet_framework'; // Any agent that has dotnet_framework capabilities can run this command.
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/subdir/*.csc';
+	arg: '-debug' (environment != prod);
+	arg: '-doc' (environment != prod);
+	arg: '-recurse:*.cs';
+}
+
+resource webapp-package
+{
+	type: nuget;
+	path: 'http://www.github.com/cwses1/buildwave';
+}

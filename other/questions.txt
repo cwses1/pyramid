@@ -1,0 +1,13 @@
+SYSTEM STATE VS. FILE STATE
+	* Updating a file will generate several builds, how to throttle this and check for stability?
+	* A repo update will not generate several builds.
+	* Timer?
+	* Notifications from GitHub -> Flask server?
+	* Visualization?  React Flow? Elm?  Dart?  Highlighting what's happening?
+	* How to take into account environments, solutions, etc?  Do we even need to do this?
+	* How to process differently based on environment?  Linting for dev, minify for prod, etc.
+	* How to do approvals for deployment?
+	* How to specify concurrency, order of building?
+	* How to force a build manually?
+	* What if the same asset is deployed to a different service in different environments?  DEV - IIS, PROD - CloudFront?
+	* How to push artifacts that are already built and are ready to move to the next environment?  We should not build stuff from scratch each time from source.

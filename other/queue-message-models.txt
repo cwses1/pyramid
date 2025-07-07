@@ -1,0 +1,17 @@
+resource queue-message-models
+{
+	type: artifactory;
+	path: 'https://artifactory.pyramid.com/queue-message-models.dll';
+	child: queue-message-models-repo;
+	task: build-queue-message-models;
+}
+
+resource queue-message-models-repo
+{
+	type: git;
+	path: 'https://www.github.com/';
+}
+
+task build-queue-message-models
+{
+}

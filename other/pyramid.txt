@@ -1,97 +1,104 @@
-SYSTEM STATE VS. FILE STATE
-	* Updating a file will generate several builds, how to throttle this and check for stability?
-	* A repo update will not generate several builds.
-	* Timer?
-	* Notifications from GitHub -> Flask server?
-	* Visualization?  React Flow? Elm?  Dart?  Highlighting what's happening?
-	* How to take into account environments, solutions, etc?  Do we even need to do this?
-	* How to process differently based on environment?  Linting for dev, minify for prod, etc.
-	* How to do approvals for deployment?
-	* How to specify concurrency, order of building?
-	* How to force a build manually?
-	* What if the same asset is deployed to a different service in different environments?  DEV - IIS, PROD - CloudFront?
-	* How to push artifacts that are already built and are ready to move to the next environment?  We should not build stuff from scratch each time from source.
-
-webapp solution
+app webapp // An app is something that can be deployed independently, it has environments.
 {
+	name: 'React Web App';
+	child: webapp_html, webapp_css, webapp_js; // CHILD DEPENDENCIES.  IF ANY OF THESE CHANGE STATE, THEN THE PARENT IS REBUILT.
+	child: webapp_config;
+	child: webapp_images;
+	//trigger-schedule: webappTriggerSchedule; // SOME TARGETS MUST BE TRIGGERED ON A SCHEDULE BECAUSE THE resource cannot send a state update notification.
+	//environment: dev, qa; // USE MORE COMMAS FOR TERSITY WHEN DEFINING THE TOPOLOGY.
 }
 
-default solution
+task build_webapp
 {
+	build: async; // default build concurrency mode.
+
 }
 
-default environment
+app webapi // An app is something that can be deployed independently, it has environments.
 {
-	solution: default;
-	webAppBucketUrl: 's3://webapp-bucket-preprod.s3.amazonaws.com';
-	webAppDir: '/';
+	name: 'My React Web App';
 }
 
-dev environment
+app xrunner // An app is something that can be deployed independently, it has environments.
 {
-	solution: webapp;
+	name: 'My React Web App';
 }
 
-qa environment
+app default // app_default is a special default app, it is implicitly defined for smaller projects.
 {
-	solution: webapp;
+	name: 'Implicitly created default app';
 }
 
-prod environment
+environment default // Symbol name conflict here. environment_default it is implicitly defined for smaller projects.
 {
-	solution: webapp;
+	//
+	// STANDARD ENVIRONMENT PROPERTIES.
+	// DEFINE WHAT APPS ARE IN THIS ENVIRONMENT?
+	//
+	app: default; // use default app if no app is specified, so this can be left out.
+
+	//
+	// CUSTOM ENVIRONMENT PROPERTIES.
+	//
+	webapp-bucket-url: 's3://webapp-bucket-preprod.s3.amazonaws.com';
+	webapp-dir: '/';
+}
+
+environment dev
+{
+	app: webapp;
+}
+
+environment qa
+{
+	app: webapp;
+}
+
+environment prod
+{
+	app: webapp;
 	webAppBucketUrl: 's3://webapp-bucket-prod.s3.amazonaws.com';
 	webAppDir: '/path/to/app';
 }
 
-//
-// A module is a concept or a set of components.
-//
-webApp module
+resource webapp_html
 {
-	//
-	// CHILD DEPENDENCIES.  IF ANY OF THESE ARE UPDATED, THEN THE PARENT IS REBUILT.
-	//
-	build: async;
-	child: webapp_html;
-	child: webapp_css;
-	child: webapp_js;
-	child: webapp_config;
-	child: webapp_images;
-
-	//
-	// SOME TARGETS MUST BE TRIGGERED ON A SCHEDULE BECAUSE IT DOESN'T NOTIFY.
-	//
-	//triggerSchedule: webappTriggerSchedule;
-	//
-	// USE MORE COMMAS FOR TERSITY WHEN DEFINING THE TOPOLOGY.
-	//
-	//environment: dev, qa;
-}
-
-webapp_html object
-{
-	type: file;
+	type: file (not prod) // or (default) or no hint at all means (default)
 	path: '{{webAppBucketUrl}}{{webAppDir}}webapp.html' (default);
 
-	type: s3 object (prod)
+	type: s3 object (prod);
 	path: '{{webAppBucketUrl}}{{webAppDir}}webapp.html' (prod); // environment hint	or override
+
+	command: build_webapp_html; // If no command is defined, then build_webapp_html is the assumed default if it exists.
 }
 
-webapp_html build command
+command build_webapp_html
 {
 	agent: 'dotnet_framework'; // Any agent that has dotnet_framework capabilities can run this command.
 	path: 'csc';
 	arg: '*.cs';
 	arg: '/subdir/*.csc';
 	arg: '-debug' (environment: not prod);
+	arg: '-doc' (environment: not prod);
+	arg: '-recurse:*.cs';
 }
 
-component webapp_css
+object webapp_css
 {
 	type: s3 object;
 	path: '{{webappBucketUrl}}/webapp.css';
 	path: '{{webappBucketUrl}}/some/prod/url/webapp.css' (prod);
+}
+
+command build_webapp_css
+{
+	agent: 'dotnet_framework'; // Any agent that has dotnet_framework capabilities can run this command.
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/subdir/*.csc';
+	arg: '-debug' (environment: not prod);
+	arg: '-doc' (environment: not prod);
+	arg: '-recurse:*.cs';
 }
 
 webappTriggerSchedule
@@ -223,4 +230,3 @@ messageModelsLib
 	trigger: sha1;
 	trigger: last_updated_timestamp;
 }
-
