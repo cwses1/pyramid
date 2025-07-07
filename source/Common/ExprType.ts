@@ -2,7 +2,9 @@ enum ExprType
 {
 	ReferenceToSymbol,
 	String,
-	List
+	List,
+	App,
+	Int32
 }
 
 export default ExprType;
