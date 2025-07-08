@@ -3,9 +3,9 @@ print symbols;
 app webapp
 {
 	name: 'React Web App';
-	child: webapp-repo;
-	//task: build-webapp;
-	//solution: atomlab;
+	resource: webapp-repo;
+	task: build-webapp;
+	solution: atomlab;
 }
 
 resource webapp-repo
@@ -14,4 +14,30 @@ resource webapp-repo
 	path: 'http://www.github.com/cwses1/buildwave';
 	//trigger: manual;
 	//trigger-frequency: 1m;
+}
+
+task build-webapp
+{	
+	task: build-webapp-html;
+	//task: build-webapp-css; // Sibling tasks are always run asychronously, child tasks are run synchronously.
+	//task: build-webapp-js;
+	//task: build-webapp-config;
+	//task: build-webapp-images;
+}
+
+task build-webapp-html
+{
+	path: 'csc';
+	arg: '*.cs';
+	arg: '/subdir/*.csc';
+	arg: '-debug' (environment = dev or environment = qa);
+	arg: '-doc' (environment = dev);
+	arg: '-recurse:*.cs';
+}
+
+solution atomlab
+{
+	webapp-bucket-url: 's3://webapp-bucket-prod.s3.amazonaws.com';
+	webapp-dir: '/path/to/app';
+	webapi-config-file-path: '';
 }

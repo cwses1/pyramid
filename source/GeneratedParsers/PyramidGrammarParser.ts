@@ -70,13 +70,14 @@ export default class PyramidGrammarParser extends Parser {
 	public static readonly literalNames: (string | null)[] = [ null, "'app'", 
                                                             "'{'", "'}'", 
                                                             "'task'", "'solution'", 
+                                                            "'resource'", 
                                                             "':'", "';'", 
                                                             "'('", "')'", 
                                                             "'and'", "'or'", 
                                                             "'environment'", 
                                                             "'='", "'!='", 
-                                                            "'=='", "'resource'", 
-                                                            "'print'", "'symbols'", 
+                                                            "'=='", "'print'", 
+                                                            "'symbols'", 
                                                             "'symbol'" ];
 	public static readonly symbolicNames: (string | null)[] = [ null, null, 
                                                              null, null, 
@@ -137,7 +138,7 @@ export default class PyramidGrammarParser extends Parser {
 				this.state = 47;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 200754) !== 0));
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 139378) !== 0));
 			}
 		}
 		catch (re) {
@@ -176,14 +177,14 @@ export default class PyramidGrammarParser extends Parser {
 				this.taskStatement();
 				}
 				break;
-			case 12:
+			case 13:
 				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 51;
 				this.environmentStatement();
 				}
 				break;
-			case 16:
+			case 6:
 				this.enterOuterAlt(localctx, 4);
 				{
 				this.state = 52;
@@ -239,7 +240,7 @@ export default class PyramidGrammarParser extends Parser {
 			this.state = 61;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777264) !== 0)) {
+			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777328) !== 0)) {
 				{
 				this.state = 60;
 				this.appPropList();
@@ -285,7 +286,7 @@ export default class PyramidGrammarParser extends Parser {
 				this.state = 68;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777264) !== 0));
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777328) !== 0));
 			}
 		}
 		catch (re) {
@@ -312,7 +313,7 @@ export default class PyramidGrammarParser extends Parser {
 			{
 			this.state = 70;
 			_la = this._input.LA(1);
-			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777264) !== 0))) {
+			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777328) !== 0))) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -320,11 +321,11 @@ export default class PyramidGrammarParser extends Parser {
 			    this.consume();
 			}
 			this.state = 71;
-			this.match(PyramidGrammarParser.T__5);
+			this.match(PyramidGrammarParser.T__6);
 			this.state = 72;
 			this.expr();
 			this.state = 73;
-			this.match(PyramidGrammarParser.T__6);
+			this.match(PyramidGrammarParser.T__7);
 			}
 		}
 		catch (re) {
@@ -472,13 +473,13 @@ export default class PyramidGrammarParser extends Parser {
 			    this.consume();
 			}
 			this.state = 91;
-			this.match(PyramidGrammarParser.T__5);
+			this.match(PyramidGrammarParser.T__6);
 			this.state = 92;
 			this.expr();
 			this.state = 94;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===8) {
+			if (_la===9) {
 				{
 				this.state = 93;
 				this.condClause();
@@ -486,7 +487,7 @@ export default class PyramidGrammarParser extends Parser {
 			}
 
 			this.state = 96;
-			this.match(PyramidGrammarParser.T__6);
+			this.match(PyramidGrammarParser.T__7);
 			}
 		}
 		catch (re) {
@@ -511,11 +512,11 @@ export default class PyramidGrammarParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 98;
-			this.match(PyramidGrammarParser.T__7);
+			this.match(PyramidGrammarParser.T__8);
 			this.state = 99;
 			this.condExpr();
 			this.state = 100;
-			this.match(PyramidGrammarParser.T__8);
+			this.match(PyramidGrammarParser.T__9);
 			}
 		}
 		catch (re) {
@@ -556,11 +557,11 @@ export default class PyramidGrammarParser extends Parser {
 				this.state = 106;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la===10 || _la===11) {
+				if (_la===11 || _la===12) {
 					{
 					this.state = 104;
 					_la = this._input.LA(1);
-					if(!(_la===10 || _la===11)) {
+					if(!(_la===11 || _la===12)) {
 					this._errHandler.recoverInline(this);
 					}
 					else {
@@ -578,11 +579,11 @@ export default class PyramidGrammarParser extends Parser {
 				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 108;
-				this.match(PyramidGrammarParser.T__7);
+				this.match(PyramidGrammarParser.T__8);
 				this.state = 109;
 				this.condExpr();
 				this.state = 110;
-				this.match(PyramidGrammarParser.T__8);
+				this.match(PyramidGrammarParser.T__9);
 				}
 				break;
 			}
@@ -611,7 +612,7 @@ export default class PyramidGrammarParser extends Parser {
 			{
 			this.state = 114;
 			_la = this._input.LA(1);
-			if(!(_la===12 || _la===24)) {
+			if(!(_la===13 || _la===24)) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -620,7 +621,7 @@ export default class PyramidGrammarParser extends Parser {
 			}
 			this.state = 115;
 			_la = this._input.LA(1);
-			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 57344) !== 0))) {
+			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 114688) !== 0))) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -654,7 +655,7 @@ export default class PyramidGrammarParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 118;
-			this.match(PyramidGrammarParser.T__11);
+			this.match(PyramidGrammarParser.T__12);
 			this.state = 119;
 			this.match(PyramidGrammarParser.SYMBOL_ID);
 			this.state = 120;
@@ -743,11 +744,11 @@ export default class PyramidGrammarParser extends Parser {
 			    this.consume();
 			}
 			this.state = 132;
-			this.match(PyramidGrammarParser.T__5);
+			this.match(PyramidGrammarParser.T__6);
 			this.state = 133;
 			this.expr();
 			this.state = 134;
-			this.match(PyramidGrammarParser.T__6);
+			this.match(PyramidGrammarParser.T__7);
 			}
 		}
 		catch (re) {
@@ -773,7 +774,7 @@ export default class PyramidGrammarParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 136;
-			this.match(PyramidGrammarParser.T__15);
+			this.match(PyramidGrammarParser.T__5);
 			this.state = 137;
 			this.match(PyramidGrammarParser.SYMBOL_ID);
 			this.state = 138;
@@ -855,13 +856,13 @@ export default class PyramidGrammarParser extends Parser {
 			this.state = 149;
 			this.match(PyramidGrammarParser.SYMBOL_ID);
 			this.state = 150;
-			this.match(PyramidGrammarParser.T__5);
+			this.match(PyramidGrammarParser.T__6);
 			this.state = 151;
 			this.expr();
 			this.state = 153;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===8) {
+			if (_la===9) {
 				{
 				this.state = 152;
 				this.condClause();
@@ -869,7 +870,7 @@ export default class PyramidGrammarParser extends Parser {
 			}
 
 			this.state = 155;
-			this.match(PyramidGrammarParser.T__6);
+			this.match(PyramidGrammarParser.T__7);
 			}
 		}
 		catch (re) {
@@ -976,11 +977,11 @@ export default class PyramidGrammarParser extends Parser {
 			this.state = 170;
 			this.match(PyramidGrammarParser.SYMBOL_ID);
 			this.state = 171;
-			this.match(PyramidGrammarParser.T__5);
+			this.match(PyramidGrammarParser.T__6);
 			this.state = 172;
 			this.expr();
 			this.state = 173;
-			this.match(PyramidGrammarParser.T__6);
+			this.match(PyramidGrammarParser.T__7);
 			}
 		}
 		catch (re) {
@@ -1027,7 +1028,7 @@ export default class PyramidGrammarParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			this.state = 181;
-			this.match(PyramidGrammarParser.T__6);
+			this.match(PyramidGrammarParser.T__7);
 			}
 		}
 		catch (re) {
@@ -1059,8 +1060,8 @@ export default class PyramidGrammarParser extends Parser {
 	147,1,17,1,17,1,17,1,17,3,17,154,8,17,1,17,1,17,1,18,1,18,1,18,1,18,3,18,
 	162,8,18,1,18,1,18,1,19,4,19,167,8,19,11,19,12,19,168,1,20,1,20,1,20,1,
 	20,1,20,1,21,1,21,1,21,1,21,3,21,180,8,21,1,21,1,21,1,21,0,0,22,0,2,4,6,
-	8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,7,2,0,4,5,24,24,
-	1,0,23,25,2,0,4,4,24,24,1,0,10,11,2,0,12,12,24,24,1,0,13,15,2,0,5,5,24,
+	8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,7,2,0,4,6,24,24,
+	1,0,23,25,2,0,4,4,24,24,1,0,11,12,2,0,13,13,24,24,1,0,14,16,2,0,5,5,24,
 	24,183,0,45,1,0,0,0,2,55,1,0,0,0,4,57,1,0,0,0,6,66,1,0,0,0,8,70,1,0,0,0,
 	10,75,1,0,0,0,12,77,1,0,0,0,14,86,1,0,0,0,16,90,1,0,0,0,18,98,1,0,0,0,20,
 	112,1,0,0,0,22,114,1,0,0,0,24,118,1,0,0,0,26,127,1,0,0,0,28,131,1,0,0,0,
@@ -1072,34 +1073,34 @@ export default class PyramidGrammarParser extends Parser {
 	0,0,0,56,3,1,0,0,0,57,58,5,1,0,0,58,59,5,24,0,0,59,61,5,2,0,0,60,62,3,6,
 	3,0,61,60,1,0,0,0,61,62,1,0,0,0,62,63,1,0,0,0,63,64,5,3,0,0,64,5,1,0,0,
 	0,65,67,3,8,4,0,66,65,1,0,0,0,67,68,1,0,0,0,68,66,1,0,0,0,68,69,1,0,0,0,
-	69,7,1,0,0,0,70,71,7,0,0,0,71,72,5,6,0,0,72,73,3,10,5,0,73,74,5,7,0,0,74,
+	69,7,1,0,0,0,70,71,7,0,0,0,71,72,5,7,0,0,72,73,3,10,5,0,73,74,5,8,0,0,74,
 	9,1,0,0,0,75,76,7,1,0,0,76,11,1,0,0,0,77,78,5,4,0,0,78,79,5,24,0,0,79,81,
 	5,2,0,0,80,82,3,14,7,0,81,80,1,0,0,0,81,82,1,0,0,0,82,83,1,0,0,0,83,84,
 	5,3,0,0,84,13,1,0,0,0,85,87,3,16,8,0,86,85,1,0,0,0,87,88,1,0,0,0,88,86,
-	1,0,0,0,88,89,1,0,0,0,89,15,1,0,0,0,90,91,7,2,0,0,91,92,5,6,0,0,92,94,3,
+	1,0,0,0,88,89,1,0,0,0,89,15,1,0,0,0,90,91,7,2,0,0,91,92,5,7,0,0,92,94,3,
 	10,5,0,93,95,3,18,9,0,94,93,1,0,0,0,94,95,1,0,0,0,95,96,1,0,0,0,96,97,5,
-	7,0,0,97,17,1,0,0,0,98,99,5,8,0,0,99,100,3,20,10,0,100,101,5,9,0,0,101,
+	8,0,0,97,17,1,0,0,0,98,99,5,9,0,0,99,100,3,20,10,0,100,101,5,10,0,0,101,
 	19,1,0,0,0,102,113,3,22,11,0,103,106,3,22,11,0,104,105,7,3,0,0,105,107,
-	3,20,10,0,106,104,1,0,0,0,106,107,1,0,0,0,107,113,1,0,0,0,108,109,5,8,0,
-	0,109,110,3,20,10,0,110,111,5,9,0,0,111,113,1,0,0,0,112,102,1,0,0,0,112,
+	3,20,10,0,106,104,1,0,0,0,106,107,1,0,0,0,107,113,1,0,0,0,108,109,5,9,0,
+	0,109,110,3,20,10,0,110,111,5,10,0,0,111,113,1,0,0,0,112,102,1,0,0,0,112,
 	103,1,0,0,0,112,108,1,0,0,0,113,21,1,0,0,0,114,115,7,4,0,0,115,116,7,5,
-	0,0,116,117,3,10,5,0,117,23,1,0,0,0,118,119,5,12,0,0,119,120,5,24,0,0,120,
+	0,0,116,117,3,10,5,0,117,23,1,0,0,0,118,119,5,13,0,0,119,120,5,24,0,0,120,
 	122,5,2,0,0,121,123,3,26,13,0,122,121,1,0,0,0,122,123,1,0,0,0,123,124,1,
 	0,0,0,124,125,5,3,0,0,125,25,1,0,0,0,126,128,3,28,14,0,127,126,1,0,0,0,
 	128,129,1,0,0,0,129,127,1,0,0,0,129,130,1,0,0,0,130,27,1,0,0,0,131,132,
-	7,6,0,0,132,133,5,6,0,0,133,134,3,10,5,0,134,135,5,7,0,0,135,29,1,0,0,0,
-	136,137,5,16,0,0,137,138,5,24,0,0,138,140,5,2,0,0,139,141,3,32,16,0,140,
+	7,6,0,0,132,133,5,7,0,0,133,134,3,10,5,0,134,135,5,8,0,0,135,29,1,0,0,0,
+	136,137,5,6,0,0,137,138,5,24,0,0,138,140,5,2,0,0,139,141,3,32,16,0,140,
 	139,1,0,0,0,140,141,1,0,0,0,141,142,1,0,0,0,142,143,5,3,0,0,143,31,1,0,
 	0,0,144,146,3,34,17,0,145,144,1,0,0,0,146,147,1,0,0,0,147,145,1,0,0,0,147,
-	148,1,0,0,0,148,33,1,0,0,0,149,150,5,24,0,0,150,151,5,6,0,0,151,153,3,10,
+	148,1,0,0,0,148,33,1,0,0,0,149,150,5,24,0,0,150,151,5,7,0,0,151,153,3,10,
 	5,0,152,154,3,18,9,0,153,152,1,0,0,0,153,154,1,0,0,0,154,155,1,0,0,0,155,
-	156,5,7,0,0,156,35,1,0,0,0,157,158,5,5,0,0,158,159,5,24,0,0,159,161,5,2,
+	156,5,8,0,0,156,35,1,0,0,0,157,158,5,5,0,0,158,159,5,24,0,0,159,161,5,2,
 	0,0,160,162,3,38,19,0,161,160,1,0,0,0,161,162,1,0,0,0,162,163,1,0,0,0,163,
 	164,5,3,0,0,164,37,1,0,0,0,165,167,3,40,20,0,166,165,1,0,0,0,167,168,1,
 	0,0,0,168,166,1,0,0,0,168,169,1,0,0,0,169,39,1,0,0,0,170,171,5,24,0,0,171,
-	172,5,6,0,0,172,173,3,10,5,0,173,174,5,7,0,0,174,41,1,0,0,0,175,179,5,17,
+	172,5,7,0,0,172,173,3,10,5,0,173,174,5,8,0,0,174,41,1,0,0,0,175,179,5,17,
 	0,0,176,180,5,18,0,0,177,178,5,19,0,0,178,180,5,24,0,0,179,176,1,0,0,0,
-	179,177,1,0,0,0,180,181,1,0,0,0,181,182,5,7,0,0,182,43,1,0,0,0,17,47,55,
+	179,177,1,0,0,0,180,181,1,0,0,0,181,182,5,8,0,0,182,43,1,0,0,0,17,47,55,
 	61,68,81,88,94,106,112,122,129,140,147,153,161,168,179];
 
 	private static __ATN: ATN;

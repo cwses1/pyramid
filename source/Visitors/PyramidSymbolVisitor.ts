@@ -5,7 +5,9 @@ import { ScriptContext,
 	AppPropContext,
 	ExprContext,
 	PrintStatementContext,
-	ResourceStatementContext } from "../GeneratedParsers/PyramidGrammarParser";
+	ResourceStatementContext,
+	TaskStatementContext,
+	SolutionStatementContext} from "../GeneratedParsers/PyramidGrammarParser";
 import Symbol from '../Entities/Symbol';
 import Expr from '../Entities/Expr';
 import ExprType from '../Common/ExprType';
@@ -51,11 +53,44 @@ export default class PyramidSymbolVisitor extends PyramidBaseConcreteVisitor
 		if (this.symbolTable.hasSymbolByName(resourceSymbolName))
 			throw new PyramidException(`${resourceSymbolName}: Symbol already defined.`);
 
-		let appSymbol = new Symbol();
-		appSymbol.name = resourceSymbolName;
-		appSymbol.type = ExprType.Resource;
-		appSymbol.value = {};
-		this.symbolTable.insertSymbol(appSymbol);
+		let resourceSymbol = new Symbol();
+		resourceSymbol.name = resourceSymbolName;
+		resourceSymbol.type = ExprType.Resource;
+		resourceSymbol.value = {};
+		this.symbolTable.insertSymbol(resourceSymbol);
 	};
 
+	visitTaskStatement = (ctx: TaskStatementContext) =>
+	{
+		/*
+		taskStatement: 'task' SYMBOL_ID '{' taskPropList? '}';
+		*/
+		let taskSymbolName = ctx.SYMBOL_ID().getText();
+
+		if (this.symbolTable.hasSymbolByName(taskSymbolName))
+			throw new PyramidException(`${taskSymbolName}: Symbol already defined.`);
+
+		let taskSymbol = new Symbol();
+		taskSymbol.name = taskSymbolName;
+		taskSymbol.type = ExprType.Task;
+		taskSymbol.value = {};
+		this.symbolTable.insertSymbol(taskSymbol);
+	}
+
+	visitSolutionStatement = (ctx: SolutionStatementContext) =>
+	{
+		/*
+		solutionStatement: 'solution' SYMBOL_ID '{' solutionPropList? '}';
+		*/
+		let solutionSymbolName = ctx.SYMBOL_ID().getText();
+
+		if (this.symbolTable.hasSymbolByName(solutionSymbolName))
+			throw new PyramidException(`${solutionSymbolName}: Symbol already defined.`);
+
+		let solutionSymbol = new Symbol();
+		solutionSymbol.name = solutionSymbolName;
+		solutionSymbol.type = ExprType.Solution;
+		solutionSymbol.value = {};
+		this.symbolTable.insertSymbol(solutionSymbol);
+	}
 }

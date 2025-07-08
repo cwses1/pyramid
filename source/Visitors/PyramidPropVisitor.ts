@@ -2,7 +2,11 @@ import { AppStatementContext,
 	AppPropContext,
 	ExprContext,
 	ResourcePropContext,
-	ResourceStatementContext} from "../GeneratedParsers/PyramidGrammarParser";
+	ResourceStatementContext,
+	TaskPropContext,
+	SolutionPropContext,
+	TaskStatementContext,
+	SolutionStatementContext} from "../GeneratedParsers/PyramidGrammarParser";
 import Expr from '../Entities/Expr';
 import ExprType from '../Common/ExprType';
 import PyramidException from '../Exceptions/PyramidException';
@@ -36,7 +40,7 @@ export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 	visitAppProp = (ctx: AppPropContext) =>
 	{
 		/*
-		appProp: (SYMBOL_ID | 'task' | 'solution' ) ':' expr ';';
+		appProp: (SYMBOL_ID | 'task' | 'solution' | 'resource') ':' expr ';';
 		*/
 		if (ctx.SYMBOL_ID() != null)
 			this.contextSymbol.insertProp(PropFactory.createProp(ctx.SYMBOL_ID().getText(), this.visitExpr(ctx.expr())));
@@ -69,6 +73,70 @@ export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 	{
 		/*
 		resourceProp: SYMBOL_ID ':' expr condClause? ';';
+		*/
+		if (ctx.SYMBOL_ID() != null)
+			this.contextSymbol.insertProp(PropFactory.createProp(ctx.SYMBOL_ID().getText(), this.visitExpr(ctx.expr())));
+		else
+		{
+			let prop = new Prop();
+			prop.name = ctx.getChild(0).getText();
+			prop.type = ExprType.Symbol;
+			prop.value = this.visitExpr(ctx.expr()).value;
+			this.contextSymbol.insertProp(prop);
+		}
+	}
+
+	visitTaskStatement = (ctx: TaskStatementContext) =>
+	{
+		/*
+		taskStatement: 'task' SYMBOL_ID '{' taskPropList? '}';
+		*/
+		let taskSymbolName = ctx.SYMBOL_ID().getText();
+
+		if (!this.symbolTable.hasSymbolByName(taskSymbolName))
+			throw new PyramidException(`${taskSymbolName}: Symbol not defined.`);
+
+		this.contextSymbol = this.symbolTable.getSymbolByName(taskSymbolName);
+		this.visitChildren(ctx);
+		this.contextSymbol = undefined;
+	}
+
+	visitTaskProp = (ctx: TaskPropContext) =>
+	{
+		/*
+		taskProp: (SYMBOL_ID | 'task') ':' expr condClause? ';';
+		*/
+		if (ctx.SYMBOL_ID() != null)
+			this.contextSymbol.insertProp(PropFactory.createProp(ctx.SYMBOL_ID().getText(), this.visitExpr(ctx.expr())));
+		else
+		{
+			let prop = new Prop();
+			prop.name = ctx.getChild(0).getText();
+			prop.type = ExprType.Symbol;
+			prop.value = this.visitExpr(ctx.expr()).value;
+			this.contextSymbol.insertProp(prop);
+		}
+	}
+
+	visitSolutionStatement = (ctx: SolutionStatementContext) =>
+	{
+		/*
+		solutionStatement: 'solution' SYMBOL_ID '{' solutionPropList? '}';
+		*/
+		let solutionSymbolName = ctx.SYMBOL_ID().getText();
+
+		if (!this.symbolTable.hasSymbolByName(solutionSymbolName))
+			throw new PyramidException(`${solutionSymbolName}: Symbol not defined.`);
+
+		this.contextSymbol = this.symbolTable.getSymbolByName(solutionSymbolName);
+		this.visitChildren(ctx);
+		this.contextSymbol = undefined;
+	}
+
+	visitSolutionProp = (ctx: SolutionPropContext) =>
+	{
+		/*
+		solutionProp: SYMBOL_ID ':' expr ';';
 		*/
 		if (ctx.SYMBOL_ID() != null)
 			this.contextSymbol.insertProp(PropFactory.createProp(ctx.SYMBOL_ID().getText(), this.visitExpr(ctx.expr())));

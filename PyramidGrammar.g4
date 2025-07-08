@@ -21,7 +21,7 @@ statement: appStatement
 
 appStatement: 'app' SYMBOL_ID '{' appPropList? '}';
 appPropList: appProp+;
-appProp: (SYMBOL_ID | 'task' | 'solution' ) ':' expr ';';
+appProp: (SYMBOL_ID | 'task' | 'solution' | 'resource') ':' expr ';';
 
 expr: STRING_LITERAL | SYMBOL_ID | INT_LITERAL;
 

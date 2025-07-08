@@ -2,10 +2,10 @@ import { ScriptContext,
 	StatementContext,
 	AppStatementContext,
 	AppPropListContext,
-	AppPropContext,
-	ExprContext,
 	PrintStatementContext,
-	ResourcePropListContext } from "../GeneratedParsers/PyramidGrammarParser";
+	ResourcePropListContext,
+	TaskPropListContext,
+	SolutionPropListContext} from "../GeneratedParsers/PyramidGrammarParser";
 import PyramidGrammarVisitor from "../GeneratedParsers/PyramidGrammarVisitor";
 import Symbol from '../Entities/Symbol';
 import SymbolTable from '../SymbolTables/SymbolTable';
@@ -53,6 +53,18 @@ export default class PyramidBaseConcreteVisitor extends PyramidGrammarVisitor<an
 	visitResourcePropList = (ctx: ResourcePropListContext) =>
 	{
 		//console.log('visitResourcePropList');
+		this.visitChildren(ctx);
+	}
+
+	visitTaskPropList = (ctx: TaskPropListContext) =>
+	{
+		//console.log('visitTaskPropList');
+		this.visitChildren(ctx);
+	}
+	
+	visitSolutionPropList = (ctx: SolutionPropListContext) =>
+	{
+		//console.log('visitSolutionPropList');
 		this.visitChildren(ctx);
 	}
 
