@@ -1,6 +1,7 @@
+import Expr from './Expr';
+
 export default class Prop
 {
 	name:string|undefined;
-	type:number|undefined;
-	value:any;
+	expr:Expr|undefined;
 }

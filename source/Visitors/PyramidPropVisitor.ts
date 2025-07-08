@@ -6,7 +6,9 @@ import { AppStatementContext,
 	TaskPropContext,
 	SolutionPropContext,
 	TaskStatementContext,
-	SolutionStatementContext} from "../GeneratedParsers/PyramidGrammarParser";
+	SolutionStatementContext,
+	EnvironmentStatementContext,
+	EnvironmentPropContext} from "../GeneratedParsers/PyramidGrammarParser";
 import Expr from '../Entities/Expr';
 import ExprType from '../Common/ExprType';
 import PyramidException from '../Exceptions/PyramidException';
@@ -14,6 +16,7 @@ import Int32Parser from '../Parsers/Int32Parser';
 import PropFactory from '../EntityFactories/PropFactory';
 import Prop from '../Entities/Prop';
 import PyramidBaseConcreteVisitor from './PyramidBaseConcreteVisitor';
+import TaskReference from '../EntityReferences/TaskReference';
 
 export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 {
@@ -48,8 +51,7 @@ export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 		{
 			let prop = new Prop();
 			prop.name = ctx.getChild(0).getText();
-			prop.type = ExprType.Symbol;
-			prop.value = this.visitExpr(ctx.expr()).value;
+			prop.expr = this.visitExpr(ctx.expr());
 			this.contextSymbol.insertProp(prop);
 		}
 	}
@@ -80,8 +82,7 @@ export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 		{
 			let prop = new Prop();
 			prop.name = ctx.getChild(0).getText();
-			prop.type = ExprType.Symbol;
-			prop.value = this.visitExpr(ctx.expr()).value;
+			prop.expr = this.visitExpr(ctx.expr());
 			this.contextSymbol.insertProp(prop);
 		}
 	}
@@ -107,13 +108,21 @@ export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 		taskProp: (SYMBOL_ID | 'task') ':' expr condClause? ';';
 		*/
 		if (ctx.SYMBOL_ID() != null)
-			this.contextSymbol.insertProp(PropFactory.createProp(ctx.SYMBOL_ID().getText(), this.visitExpr(ctx.expr())));
+		{
+			let propName:string = ctx.SYMBOL_ID().getText();
+			let propExpr:Expr = this.visitExpr(ctx.expr());
+			let prop = PropFactory.createProp(propName, propExpr);
+			
+			if (TaskReference.propIsMultiValue(propName))
+				this.contextSymbol.appendProp(prop);
+			else
+				this.contextSymbol.insertProp(prop);
+		}
 		else
 		{
 			let prop = new Prop();
 			prop.name = ctx.getChild(0).getText();
-			prop.type = ExprType.Symbol;
-			prop.value = this.visitExpr(ctx.expr()).value;
+			prop.expr = this.visitExpr(ctx.expr());
 			this.contextSymbol.insertProp(prop);
 		}
 	}
@@ -144,10 +153,39 @@ export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 		{
 			let prop = new Prop();
 			prop.name = ctx.getChild(0).getText();
-			prop.type = ExprType.Symbol;
-			prop.value = this.visitExpr(ctx.expr()).value;
+			prop.expr = this.visitExpr(ctx.expr());
 			this.contextSymbol.insertProp(prop);
 		}
+	}
+
+	visitEnvironmentStatement = (ctx: EnvironmentStatementContext) =>
+	{
+		/*
+		solutionStatement: 'solution' SYMBOL_ID '{' solutionPropList? '}';
+		*/
+		let solutionSymbolName = ctx.SYMBOL_ID().getText();
+
+		if (!this.symbolTable.hasSymbolByName(solutionSymbolName))
+			throw new PyramidException(`${solutionSymbolName}: Symbol not defined.`);
+
+		this.contextSymbol = this.symbolTable.getSymbolByName(solutionSymbolName);
+		this.visitChildren(ctx);
+		this.contextSymbol = undefined;
+	}
+
+	visitEnvironmentProp = (ctx: EnvironmentPropContext) =>
+	{
+		/*
+		environmentStatement: 'environment' SYMBOL_ID '{' environmentPropList? '}';
+		*/
+		let environmentSymbolName = ctx.SYMBOL_ID().getText();
+
+		if (!this.symbolTable.hasSymbolByName(environmentSymbolName))
+			throw new PyramidException(`${environmentSymbolName}: Symbol not defined.`);
+
+		this.contextSymbol = this.symbolTable.getSymbolByName(environmentSymbolName);
+		this.visitChildren(ctx);
+		this.contextSymbol = undefined;
 	}
 
 	visitExpr = (ctx: ExprContext) =>

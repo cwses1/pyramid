@@ -1,22 +1,11 @@
-import { ScriptContext,
-	StatementContext,
-	AppStatementContext,
-	AppPropListContext,
-	AppPropContext,
-	ExprContext,
-	PrintStatementContext,
+import {AppStatementContext,
 	ResourceStatementContext,
 	TaskStatementContext,
-	SolutionStatementContext} from "../GeneratedParsers/PyramidGrammarParser";
+	SolutionStatementContext,
+	EnvironmentStatementContext} from "../GeneratedParsers/PyramidGrammarParser";
 import Symbol from '../Entities/Symbol';
-import Expr from '../Entities/Expr';
 import ExprType from '../Common/ExprType';
-import SymbolTable from '../SymbolTables/SymbolTable';
 import PyramidException from '../Exceptions/PyramidException';
-import Int32Parser from '../Parsers/Int32Parser';
-import PropFactory from '../EntityFactories/PropFactory';
-import Prop from '../Entities/Prop';
-import PrintSymbolAppService from '../AppServices/PrintSymbolAppService';
 import PyramidBaseConcreteVisitor from './PyramidBaseConcreteVisitor';
 
 export default class PyramidSymbolVisitor extends PyramidBaseConcreteVisitor
@@ -39,7 +28,6 @@ export default class PyramidSymbolVisitor extends PyramidBaseConcreteVisitor
 		let appSymbol = new Symbol();
 		appSymbol.name = appSymbolName;
 		appSymbol.type = ExprType.App;
-		appSymbol.value = {};
 		this.symbolTable.insertSymbol(appSymbol);
 	}
 
@@ -56,7 +44,6 @@ export default class PyramidSymbolVisitor extends PyramidBaseConcreteVisitor
 		let resourceSymbol = new Symbol();
 		resourceSymbol.name = resourceSymbolName;
 		resourceSymbol.type = ExprType.Resource;
-		resourceSymbol.value = {};
 		this.symbolTable.insertSymbol(resourceSymbol);
 	};
 
@@ -73,7 +60,6 @@ export default class PyramidSymbolVisitor extends PyramidBaseConcreteVisitor
 		let taskSymbol = new Symbol();
 		taskSymbol.name = taskSymbolName;
 		taskSymbol.type = ExprType.Task;
-		taskSymbol.value = {};
 		this.symbolTable.insertSymbol(taskSymbol);
 	}
 
@@ -90,7 +76,22 @@ export default class PyramidSymbolVisitor extends PyramidBaseConcreteVisitor
 		let solutionSymbol = new Symbol();
 		solutionSymbol.name = solutionSymbolName;
 		solutionSymbol.type = ExprType.Solution;
-		solutionSymbol.value = {};
 		this.symbolTable.insertSymbol(solutionSymbol);
+	}
+
+	visitEnvironmentStatement = (ctx: EnvironmentStatementContext) =>
+	{
+		/*
+		environmentStatement: 'environment' SYMBOL_ID '{' environmentPropList? '}';
+		*/
+		let environmentSymbolName = ctx.SYMBOL_ID().getText();
+
+		if (this.symbolTable.hasSymbolByName(environmentSymbolName))
+			throw new PyramidException(`${environmentSymbolName}: Symbol already defined.`);
+
+		let environmentSymbol = new Symbol();
+		environmentSymbol.name = environmentSymbolName;
+		environmentSymbol.type = ExprType.Environment;
+		this.symbolTable.insertSymbol(environmentSymbol);
 	}
 }

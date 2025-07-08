@@ -2,7 +2,7 @@ export default class ExprType
 {
 	static Symbol = 0;
 	static String = 1;
-	static List = 2;
+	static List = 2; // Expr[]
 	static App = 3;
 	static Int32 = 4;
 	static Resource = 5;

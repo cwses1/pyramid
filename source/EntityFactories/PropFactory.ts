@@ -7,8 +7,7 @@ export default class PropFactory
 	{
 		let prop = new Prop();
 		prop.name = name;
-		prop.type = expr.type;
-		prop.value = expr.value;
+		prop.expr = expr;
 		return prop;
 	}
 }

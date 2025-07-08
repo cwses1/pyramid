@@ -1,6 +1,7 @@
 import Symbol from '../Entities/Symbol';
 import ExprTypeFormatter from './ExprTypeFormatter';
 import ExprType from '../Common/ExprType';
+import ExprFormatter from './ExprFormatter';
 
 export default class SymbolFormatter
 {
@@ -8,12 +9,9 @@ export default class SymbolFormatter
 	{
 		let s = `${symbol.name}: ${ExprTypeFormatter.format(symbol.type)}\n`;
 		s += '{\n'
-		symbol.getProps().forEach((prop) =>
+		symbol.getPropList().forEach((prop) =>
 		{
-			if (prop.type == ExprType.Symbol)
-				s += `\t${prop.name}: ${prop.value.name}:${ExprTypeFormatter.format(prop.type)};\n`;
-			else
-				s += `\t${prop.name}: ${prop.value}:${ExprTypeFormatter.format(prop.type)};\n`;
+			s += `\t${prop.name}: ${ExprFormatter.format(prop.expr)};\n`;
 		});
 		s += '}\n'
 		return s;
