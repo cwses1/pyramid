@@ -4,9 +4,18 @@ import SymbolTable from './SymbolTables/SymbolTable';
 
 async function main ()
 {
-	const scriptFile = await open('./other/webapp.txt');
-	const scriptText = await scriptFile.readFile({encoding: 'utf8'})
-	await scriptFile.close();
+	if (process.argv.length != 3)
+	{
+		console.log('USAGE:');
+		console.log('pyramid <file-path>');
+		return false;
+	}
+
+	const scriptFilePath = process.argv[2]
+
+	const scriptFileHandle = await open(scriptFilePath);
+	const scriptText = await scriptFileHandle.readFile({encoding: 'utf8'})
+	await scriptFileHandle.close();
 
 	const interpreter = new PyramidInterpreter();
 	interpreter.scriptText = scriptText;

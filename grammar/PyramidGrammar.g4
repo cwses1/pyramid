@@ -42,7 +42,7 @@ environmentProp: (SYMBOL_ID | 'solution') ':' expr ';';
 
 resourceStatement: 'resource' SYMBOL_ID '{' resourcePropList? '}';
 resourcePropList: resourceProp+;
-resourceProp: SYMBOL_ID ':' expr condClause? ';';
+resourceProp: (SYMBOL_ID | 'resource' | 'task') ':' expr condClause? ';';
 
 solutionStatement: 'solution' SYMBOL_ID '{' solutionPropList? '}';
 solutionPropList: solutionProp+;

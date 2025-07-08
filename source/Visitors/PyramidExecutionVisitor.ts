@@ -1,26 +1,44 @@
-import { ScriptContext,
-	StatementContext,
+import {
 	AppStatementContext,
-	AppPropListContext,
-	AppPropContext,
-	ExprContext,
-	PrintStatementContext } from "../GeneratedParsers/PyramidGrammarParser";
-import Symbol from '../Entities/Symbol';
-import Expr from '../Entities/Expr';
-import ExprType from '../Common/ExprType';
-import SymbolTable from '../SymbolTables/SymbolTable';
-import PyramidException from '../Exceptions/PyramidException';
-import Int32Parser from '../Parsers/Int32Parser';
-import PropFactory from '../EntityFactories/PropFactory';
-import Prop from '../Entities/Prop';
+	PrintStatementContext,
+	ResourceStatementContext
+	} from "../GeneratedParsers/PyramidGrammarParser";
+import SymbolTreeNodeFactory from '../EntityFactories/SymbolTreeNodeFactory';
 import PrintSymbolAppService from '../AppServices/PrintSymbolAppService';
 import PyramidBaseConcreteVisitor from './PyramidBaseConcreteVisitor';
+import ResourceSymbolTree from '../Trees/ResourceSymbolTree';
+import ResourceSymbolTreeFormatter from '../Formatters/ResourceSymbolTreeFormatter';
 
 export default class PyramidExecutionVisitor extends PyramidBaseConcreteVisitor
 {
 	constructor ()
 	{
 		super();
+		this.resourceSymbolTree = new ResourceSymbolTree();
+	}
+
+	visitAppStatement = (ctx: AppStatementContext) =>
+	{
+		/*
+		appStatement: 'app' SYMBOL_ID '{' appPropList? '}';
+		*/
+		let appSymbolName = ctx.SYMBOL_ID().getText();
+		let appSymbol = this.symbolTable.getSymbolByName(appSymbolName);
+		this.resourceSymbolTree.insertNode(SymbolTreeNodeFactory.createSymbolTreeNode(appSymbol));
+
+		console.log(ResourceSymbolTreeFormatter.format(this.resourceSymbolTree));
+	}
+
+	visitResourceStatement = (ctx: ResourceStatementContext) =>
+	{
+		/*
+		resourceStatement: 'resource' SYMBOL_ID '{' resourcePropList? '}';
+		*/
+		let resourceSymbolName = ctx.SYMBOL_ID().getText();
+		let resourceSymbol = this.symbolTable.getSymbolByName(resourceSymbolName);
+		this.resourceSymbolTree.insertNode(SymbolTreeNodeFactory.createSymbolTreeNode(resourceSymbol));
+
+		console.log(ResourceSymbolTreeFormatter.format(this.resourceSymbolTree));
 	}
 
 	visitPrintStatement = (ctx: PrintStatementContext) =>
@@ -33,4 +51,6 @@ export default class PyramidExecutionVisitor extends PyramidBaseConcreteVisitor
 		appService.symbolTable = this.symbolTable;
 		appService.run();
 	}
+
+	resourceSymbolTree: ResourceSymbolTree;
 }

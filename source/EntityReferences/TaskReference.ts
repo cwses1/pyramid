@@ -4,12 +4,13 @@ export default class TaskReference
 
 	static
 	{
+		TaskReference.propMap['cd'] = false;
 		TaskReference.propMap['path'] = false;
 		TaskReference.propMap['arg'] = true;
 	}
 
 	static propIsMultiValue (propName:string): boolean
 	{
-		return this.propMap[propName];
+		return TaskReference.propMap[propName];
 	}
 }

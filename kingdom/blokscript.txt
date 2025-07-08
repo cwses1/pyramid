@@ -1,0 +1,46 @@
+resource blokscript-source-files
+{
+	type: 'fileset';
+	include: '/Users/corywalker/Projects/blokscript/blokscript/**/*.cs';
+	exclude: '/Users/corywalker/Projects/blokscript/blokscript/bin';
+	exclude: '/Users/corywalker/Projects/blokscript/blokscript/object';
+	//watch: '';
+}
+
+app blokscript
+{
+	resource: blokscript-exe;
+	resource: blokscript-xml;
+}
+
+resource blokscript-exe
+{
+	type: 'file';
+	path: '/Users/corywalker/Projects/blokscript/blokscript/bin/Debug/net9.0/blokscript';
+	resource: blokscript-source-files;
+	task: build-blokscript-exe;
+}
+
+resource blokscript-xml
+{
+	type: 'file';
+	path: '/Users/corywalker/Projects/blokscript/blokscript/bin/Debug/net9.0/blokscript.xml';
+	resource: blokscript-source-files;
+	task: build-blokscript-xml;
+}
+
+task build-blokscript-exe
+{
+	cd: '/Users/corywalker/Projects/blokscript/blokscript';
+	path: 'dotnet';
+	arg: 'build';
+	arg: 'exe';
+}
+
+task build-blokscript-xml
+{
+	cd: '/Users/corywalker/Projects/blokscript/blokscript';
+	path: 'dotnet';
+	arg: 'build';
+	arg: 'xml';
+}

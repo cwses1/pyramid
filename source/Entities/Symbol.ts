@@ -25,6 +25,11 @@ export default class Symbol
 		return this.props[propName] != undefined;
 	}
 
+	getProp (propName:string) : Prop
+	{
+		return this.props[propName];
+	}
+
 	appendProp (prop:Prop) : void
 	{
 		let propName:string = prop.name;

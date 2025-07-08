@@ -1,0 +1,2 @@
+#!/bin/sh
+java -jar antlr-4.13.2-complete.jar -o ../source/GeneratedParsers -no-listener -visitor -Dlanguage=TypeScript -package Pyramid.GeneratedParsers  PyramidGrammar.g4
