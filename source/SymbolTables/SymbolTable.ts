@@ -1,10 +1,21 @@
 import Symbol from '../Entities/Symbol';
+import ExprType from '../Common/ExprType';
 
 export default class SymbolTable
 {
 	constructor ()
 	{
 		this.symbolMap = {};
+	}
+
+	getSymbols () : Symbol[]
+	{
+		return Object.values(this.symbolMap);
+	}
+
+	getSymbolByType (exprType:ExprType) : Symbol[]
+	{
+		return this.getSymbols().filter((symbol) => symbol.type == exprType);
 	}
 
 	getSymbolByName (name:string) : Symbol

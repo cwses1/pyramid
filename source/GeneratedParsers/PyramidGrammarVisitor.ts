@@ -24,6 +24,7 @@ import { ResourcePropContext } from "./PyramidGrammarParser.js";
 import { SolutionStatementContext } from "./PyramidGrammarParser.js";
 import { SolutionPropListContext } from "./PyramidGrammarParser.js";
 import { SolutionPropContext } from "./PyramidGrammarParser.js";
+import { PrintStatementContext } from "./PyramidGrammarParser.js";
 
 
 /**
@@ -160,5 +161,11 @@ export default class PyramidGrammarVisitor<Result> extends ParseTreeVisitor<Resu
 	 * @return the visitor result
 	 */
 	visitSolutionProp?: (ctx: SolutionPropContext) => Result;
+	/**
+	 * Visit a parse tree produced by `PyramidGrammarParser.printStatement`.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	visitPrintStatement?: (ctx: PrintStatementContext) => Result;
 }
 

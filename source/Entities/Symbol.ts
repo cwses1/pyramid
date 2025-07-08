@@ -1,5 +1,4 @@
-import ExprType from '../Common/ExprType';
-import Expr from './Expr';
+import Prop from './Prop';
 
 export default class Symbol
 {
@@ -8,14 +7,18 @@ export default class Symbol
 		this.propMap = {};
 	}
 
-	insertProp (name:string, expr:Expr) : void
+	getProps () : Prop[]
 	{
-		this.propMap[name] = expr;
+		return Object.values(this.propMap);
+	}
+
+	insertProp (prop:Prop) : void
+	{
+		this.propMap[prop.name] = prop;
 	}
 
 	name:string;
-	type:ExprType;
+	type:number;
 	value:any;
-
-	private propMap: {[x:string]:Expr|undefined}
+	private propMap: {[x:string]:Prop|undefined}
 }

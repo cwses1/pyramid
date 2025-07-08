@@ -16,6 +16,7 @@ statement: appStatement
 	| environmentStatement
 	| resourceStatement
 	| solutionStatement
+	| printStatement
 	;
 
 appStatement: 'app' SYMBOL_ID '{' appPropList? '}';
@@ -46,3 +47,5 @@ resourceProp: SYMBOL_ID ':' expr condClause? ';';
 solutionStatement: 'solution' SYMBOL_ID '{' solutionPropList? '}';
 solutionPropList: solutionProp+;
 solutionProp: SYMBOL_ID ':' expr ';';
+
+printStatement: 'print' ('symbols' | 'symbol' SYMBOL_ID) ';';

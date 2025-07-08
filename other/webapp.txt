@@ -1,7 +1,17 @@
+print symbols;
+
 app webapp
 {
 	name: 'React Web App';
 	child: webapp-repo;
-	task: build-webapp;
-	solution: atomlab;
+	//task: build-webapp;
+	//solution: atomlab;
+}
+
+resource webapp-repo
+{
+	type: 'git';
+	path: 'http://www.github.com/cwses1/buildwave';
+	//trigger: manual;
+	//trigger-frequency: 1m;
 }

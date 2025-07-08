@@ -34,13 +34,16 @@ export default class PyramidGrammarParser extends Parser {
 	public static readonly T__13 = 14;
 	public static readonly T__14 = 15;
 	public static readonly T__15 = 16;
-	public static readonly WS = 17;
-	public static readonly LINE_COMMENT = 18;
-	public static readonly BLOCK_COMMENT = 19;
-	public static readonly STRING_LITERAL = 20;
-	public static readonly SYMBOL_ID = 21;
-	public static readonly INT_LITERAL = 22;
-	public static readonly REGEX_LITERAL = 23;
+	public static readonly T__16 = 17;
+	public static readonly T__17 = 18;
+	public static readonly T__18 = 19;
+	public static readonly WS = 20;
+	public static readonly LINE_COMMENT = 21;
+	public static readonly BLOCK_COMMENT = 22;
+	public static readonly STRING_LITERAL = 23;
+	public static readonly SYMBOL_ID = 24;
+	public static readonly INT_LITERAL = 25;
+	public static readonly REGEX_LITERAL = 26;
 	public static override readonly EOF = Token.EOF;
 	public static readonly RULE_script = 0;
 	public static readonly RULE_statement = 1;
@@ -63,6 +66,7 @@ export default class PyramidGrammarParser extends Parser {
 	public static readonly RULE_solutionStatement = 18;
 	public static readonly RULE_solutionPropList = 19;
 	public static readonly RULE_solutionProp = 20;
+	public static readonly RULE_printStatement = 21;
 	public static readonly literalNames: (string | null)[] = [ null, "'app'", 
                                                             "'{'", "'}'", 
                                                             "'task'", "'solution'", 
@@ -71,7 +75,9 @@ export default class PyramidGrammarParser extends Parser {
                                                             "'and'", "'or'", 
                                                             "'environment'", 
                                                             "'='", "'!='", 
-                                                            "'=='", "'resource'" ];
+                                                            "'=='", "'resource'", 
+                                                            "'print'", "'symbols'", 
+                                                            "'symbol'" ];
 	public static readonly symbolicNames: (string | null)[] = [ null, null, 
                                                              null, null, 
                                                              null, null, 
@@ -80,8 +86,9 @@ export default class PyramidGrammarParser extends Parser {
                                                              null, null, 
                                                              null, null, 
                                                              null, null, 
-                                                             null, "WS", 
-                                                             "LINE_COMMENT", 
+                                                             null, null, 
+                                                             null, null, 
+                                                             "WS", "LINE_COMMENT", 
                                                              "BLOCK_COMMENT", 
                                                              "STRING_LITERAL", 
                                                              "SYMBOL_ID", 
@@ -93,7 +100,7 @@ export default class PyramidGrammarParser extends Parser {
 		"taskStatement", "taskPropList", "taskProp", "condClause", "condExpr", 
 		"simpleCondExpr", "environmentStatement", "environmentPropList", "environmentProp", 
 		"resourceStatement", "resourcePropList", "resourceProp", "solutionStatement", 
-		"solutionPropList", "solutionProp",
+		"solutionPropList", "solutionProp", "printStatement",
 	];
 	public get grammarFileName(): string { return "PyramidGrammar.g4"; }
 	public get literalNames(): (string | null)[] { return PyramidGrammarParser.literalNames; }
@@ -117,20 +124,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 43;
+			this.state = 45;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 42;
+				this.state = 44;
 				this.statement();
 				}
 				}
-				this.state = 45;
+				this.state = 47;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 69682) !== 0));
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 200754) !== 0));
 			}
 		}
 		catch (re) {
@@ -152,42 +159,49 @@ export default class PyramidGrammarParser extends Parser {
 		let localctx: StatementContext = new StatementContext(this, this._ctx, this.state);
 		this.enterRule(localctx, 2, PyramidGrammarParser.RULE_statement);
 		try {
-			this.state = 52;
+			this.state = 55;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
 			case 1:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 47;
+				this.state = 49;
 				this.appStatement();
 				}
 				break;
 			case 4:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 48;
+				this.state = 50;
 				this.taskStatement();
 				}
 				break;
 			case 12:
 				this.enterOuterAlt(localctx, 3);
 				{
-				this.state = 49;
+				this.state = 51;
 				this.environmentStatement();
 				}
 				break;
 			case 16:
 				this.enterOuterAlt(localctx, 4);
 				{
-				this.state = 50;
+				this.state = 52;
 				this.resourceStatement();
 				}
 				break;
 			case 5:
 				this.enterOuterAlt(localctx, 5);
 				{
-				this.state = 51;
+				this.state = 53;
 				this.solutionStatement();
+				}
+				break;
+			case 17:
+				this.enterOuterAlt(localctx, 6);
+				{
+				this.state = 54;
+				this.printStatement();
 				}
 				break;
 			default:
@@ -216,23 +230,23 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 54;
+			this.state = 57;
 			this.match(PyramidGrammarParser.T__0);
-			this.state = 55;
-			this.match(PyramidGrammarParser.SYMBOL_ID);
-			this.state = 56;
-			this.match(PyramidGrammarParser.T__1);
 			this.state = 58;
+			this.match(PyramidGrammarParser.SYMBOL_ID);
+			this.state = 59;
+			this.match(PyramidGrammarParser.T__1);
+			this.state = 61;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 2097200) !== 0)) {
+			if ((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777264) !== 0)) {
 				{
-				this.state = 57;
+				this.state = 60;
 				this.appPropList();
 				}
 			}
 
-			this.state = 60;
+			this.state = 63;
 			this.match(PyramidGrammarParser.T__2);
 			}
 		}
@@ -258,20 +272,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 63;
+			this.state = 66;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 62;
+				this.state = 65;
 				this.appProp();
 				}
 				}
-				this.state = 65;
+				this.state = 68;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 2097200) !== 0));
+			} while ((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777264) !== 0));
 			}
 		}
 		catch (re) {
@@ -296,20 +310,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 67;
+			this.state = 70;
 			_la = this._input.LA(1);
-			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 2097200) !== 0))) {
+			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 16777264) !== 0))) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
 				this._errHandler.reportMatch(this);
 			    this.consume();
 			}
-			this.state = 68;
+			this.state = 71;
 			this.match(PyramidGrammarParser.T__5);
-			this.state = 69;
+			this.state = 72;
 			this.expr();
-			this.state = 70;
+			this.state = 73;
 			this.match(PyramidGrammarParser.T__6);
 			}
 		}
@@ -335,9 +349,9 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 72;
+			this.state = 75;
 			_la = this._input.LA(1);
-			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 7340032) !== 0))) {
+			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 58720256) !== 0))) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -368,23 +382,23 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 74;
+			this.state = 77;
 			this.match(PyramidGrammarParser.T__3);
-			this.state = 75;
-			this.match(PyramidGrammarParser.SYMBOL_ID);
-			this.state = 76;
-			this.match(PyramidGrammarParser.T__1);
 			this.state = 78;
+			this.match(PyramidGrammarParser.SYMBOL_ID);
+			this.state = 79;
+			this.match(PyramidGrammarParser.T__1);
+			this.state = 81;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===4 || _la===21) {
+			if (_la===4 || _la===24) {
 				{
-				this.state = 77;
+				this.state = 80;
 				this.taskPropList();
 				}
 			}
 
-			this.state = 80;
+			this.state = 83;
 			this.match(PyramidGrammarParser.T__2);
 			}
 		}
@@ -410,20 +424,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 83;
+			this.state = 86;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 82;
+				this.state = 85;
 				this.taskProp();
 				}
 				}
-				this.state = 85;
+				this.state = 88;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===4 || _la===21);
+			} while (_la===4 || _la===24);
 			}
 		}
 		catch (re) {
@@ -448,30 +462,30 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 87;
+			this.state = 90;
 			_la = this._input.LA(1);
-			if(!(_la===4 || _la===21)) {
+			if(!(_la===4 || _la===24)) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
 				this._errHandler.reportMatch(this);
 			    this.consume();
 			}
-			this.state = 88;
-			this.match(PyramidGrammarParser.T__5);
-			this.state = 89;
-			this.expr();
 			this.state = 91;
+			this.match(PyramidGrammarParser.T__5);
+			this.state = 92;
+			this.expr();
+			this.state = 94;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la===8) {
 				{
-				this.state = 90;
+				this.state = 93;
 				this.condClause();
 				}
 			}
 
-			this.state = 93;
+			this.state = 96;
 			this.match(PyramidGrammarParser.T__6);
 			}
 		}
@@ -496,11 +510,11 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 95;
+			this.state = 98;
 			this.match(PyramidGrammarParser.T__7);
-			this.state = 96;
+			this.state = 99;
 			this.condExpr();
-			this.state = 97;
+			this.state = 100;
 			this.match(PyramidGrammarParser.T__8);
 			}
 		}
@@ -524,27 +538,27 @@ export default class PyramidGrammarParser extends Parser {
 		this.enterRule(localctx, 20, PyramidGrammarParser.RULE_condExpr);
 		let _la: number;
 		try {
-			this.state = 109;
+			this.state = 112;
 			this._errHandler.sync(this);
 			switch ( this._interp.adaptivePredict(this._input, 8, this._ctx) ) {
 			case 1:
 				this.enterOuterAlt(localctx, 1);
 				{
-				this.state = 99;
+				this.state = 102;
 				this.simpleCondExpr();
 				}
 				break;
 			case 2:
 				this.enterOuterAlt(localctx, 2);
 				{
-				this.state = 100;
-				this.simpleCondExpr();
 				this.state = 103;
+				this.simpleCondExpr();
+				this.state = 106;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
 				if (_la===10 || _la===11) {
 					{
-					this.state = 101;
+					this.state = 104;
 					_la = this._input.LA(1);
 					if(!(_la===10 || _la===11)) {
 					this._errHandler.recoverInline(this);
@@ -553,7 +567,7 @@ export default class PyramidGrammarParser extends Parser {
 						this._errHandler.reportMatch(this);
 					    this.consume();
 					}
-					this.state = 102;
+					this.state = 105;
 					this.condExpr();
 					}
 				}
@@ -563,11 +577,11 @@ export default class PyramidGrammarParser extends Parser {
 			case 3:
 				this.enterOuterAlt(localctx, 3);
 				{
-				this.state = 105;
+				this.state = 108;
 				this.match(PyramidGrammarParser.T__7);
-				this.state = 106;
+				this.state = 109;
 				this.condExpr();
-				this.state = 107;
+				this.state = 110;
 				this.match(PyramidGrammarParser.T__8);
 				}
 				break;
@@ -595,16 +609,16 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 111;
+			this.state = 114;
 			_la = this._input.LA(1);
-			if(!(_la===12 || _la===21)) {
+			if(!(_la===12 || _la===24)) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
 				this._errHandler.reportMatch(this);
 			    this.consume();
 			}
-			this.state = 112;
+			this.state = 115;
 			_la = this._input.LA(1);
 			if(!((((_la) & ~0x1F) === 0 && ((1 << _la) & 57344) !== 0))) {
 			this._errHandler.recoverInline(this);
@@ -613,7 +627,7 @@ export default class PyramidGrammarParser extends Parser {
 				this._errHandler.reportMatch(this);
 			    this.consume();
 			}
-			this.state = 113;
+			this.state = 116;
 			this.expr();
 			}
 		}
@@ -639,23 +653,23 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 115;
+			this.state = 118;
 			this.match(PyramidGrammarParser.T__11);
-			this.state = 116;
-			this.match(PyramidGrammarParser.SYMBOL_ID);
-			this.state = 117;
-			this.match(PyramidGrammarParser.T__1);
 			this.state = 119;
+			this.match(PyramidGrammarParser.SYMBOL_ID);
+			this.state = 120;
+			this.match(PyramidGrammarParser.T__1);
+			this.state = 122;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===5 || _la===21) {
+			if (_la===5 || _la===24) {
 				{
-				this.state = 118;
+				this.state = 121;
 				this.environmentPropList();
 				}
 			}
 
-			this.state = 121;
+			this.state = 124;
 			this.match(PyramidGrammarParser.T__2);
 			}
 		}
@@ -681,20 +695,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 124;
+			this.state = 127;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 123;
+				this.state = 126;
 				this.environmentProp();
 				}
 				}
-				this.state = 126;
+				this.state = 129;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===5 || _la===21);
+			} while (_la===5 || _la===24);
 			}
 		}
 		catch (re) {
@@ -719,20 +733,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 128;
+			this.state = 131;
 			_la = this._input.LA(1);
-			if(!(_la===5 || _la===21)) {
+			if(!(_la===5 || _la===24)) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
 				this._errHandler.reportMatch(this);
 			    this.consume();
 			}
-			this.state = 129;
+			this.state = 132;
 			this.match(PyramidGrammarParser.T__5);
-			this.state = 130;
+			this.state = 133;
 			this.expr();
-			this.state = 131;
+			this.state = 134;
 			this.match(PyramidGrammarParser.T__6);
 			}
 		}
@@ -758,23 +772,23 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 133;
+			this.state = 136;
 			this.match(PyramidGrammarParser.T__15);
-			this.state = 134;
-			this.match(PyramidGrammarParser.SYMBOL_ID);
-			this.state = 135;
-			this.match(PyramidGrammarParser.T__1);
 			this.state = 137;
+			this.match(PyramidGrammarParser.SYMBOL_ID);
+			this.state = 138;
+			this.match(PyramidGrammarParser.T__1);
+			this.state = 140;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===21) {
+			if (_la===24) {
 				{
-				this.state = 136;
+				this.state = 139;
 				this.resourcePropList();
 				}
 			}
 
-			this.state = 139;
+			this.state = 142;
 			this.match(PyramidGrammarParser.T__2);
 			}
 		}
@@ -800,20 +814,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 142;
+			this.state = 145;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 141;
+				this.state = 144;
 				this.resourceProp();
 				}
 				}
-				this.state = 144;
+				this.state = 147;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===21);
+			} while (_la===24);
 			}
 		}
 		catch (re) {
@@ -838,23 +852,23 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 146;
+			this.state = 149;
 			this.match(PyramidGrammarParser.SYMBOL_ID);
-			this.state = 147;
-			this.match(PyramidGrammarParser.T__5);
-			this.state = 148;
-			this.expr();
 			this.state = 150;
+			this.match(PyramidGrammarParser.T__5);
+			this.state = 151;
+			this.expr();
+			this.state = 153;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			if (_la===8) {
 				{
-				this.state = 149;
+				this.state = 152;
 				this.condClause();
 				}
 			}
 
-			this.state = 152;
+			this.state = 155;
 			this.match(PyramidGrammarParser.T__6);
 			}
 		}
@@ -880,23 +894,23 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 154;
+			this.state = 157;
 			this.match(PyramidGrammarParser.T__4);
-			this.state = 155;
-			this.match(PyramidGrammarParser.SYMBOL_ID);
-			this.state = 156;
-			this.match(PyramidGrammarParser.T__1);
 			this.state = 158;
+			this.match(PyramidGrammarParser.SYMBOL_ID);
+			this.state = 159;
+			this.match(PyramidGrammarParser.T__1);
+			this.state = 161;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===21) {
+			if (_la===24) {
 				{
-				this.state = 157;
+				this.state = 160;
 				this.solutionPropList();
 				}
 			}
 
-			this.state = 160;
+			this.state = 163;
 			this.match(PyramidGrammarParser.T__2);
 			}
 		}
@@ -922,20 +936,20 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 163;
+			this.state = 166;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
 			do {
 				{
 				{
-				this.state = 162;
+				this.state = 165;
 				this.solutionProp();
 				}
 				}
-				this.state = 165;
+				this.state = 168;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===21);
+			} while (_la===24);
 			}
 		}
 		catch (re) {
@@ -959,13 +973,60 @@ export default class PyramidGrammarParser extends Parser {
 		try {
 			this.enterOuterAlt(localctx, 1);
 			{
-			this.state = 167;
-			this.match(PyramidGrammarParser.SYMBOL_ID);
-			this.state = 168;
-			this.match(PyramidGrammarParser.T__5);
-			this.state = 169;
-			this.expr();
 			this.state = 170;
+			this.match(PyramidGrammarParser.SYMBOL_ID);
+			this.state = 171;
+			this.match(PyramidGrammarParser.T__5);
+			this.state = 172;
+			this.expr();
+			this.state = 173;
+			this.match(PyramidGrammarParser.T__6);
+			}
+		}
+		catch (re) {
+			if (re instanceof RecognitionException) {
+				localctx.exception = re;
+				this._errHandler.reportError(this, re);
+				this._errHandler.recover(this, re);
+			} else {
+				throw re;
+			}
+		}
+		finally {
+			this.exitRule();
+		}
+		return localctx;
+	}
+	// @RuleVersion(0)
+	public printStatement(): PrintStatementContext {
+		let localctx: PrintStatementContext = new PrintStatementContext(this, this._ctx, this.state);
+		this.enterRule(localctx, 42, PyramidGrammarParser.RULE_printStatement);
+		try {
+			this.enterOuterAlt(localctx, 1);
+			{
+			this.state = 175;
+			this.match(PyramidGrammarParser.T__16);
+			this.state = 179;
+			this._errHandler.sync(this);
+			switch (this._input.LA(1)) {
+			case 18:
+				{
+				this.state = 176;
+				this.match(PyramidGrammarParser.T__17);
+				}
+				break;
+			case 19:
+				{
+				this.state = 177;
+				this.match(PyramidGrammarParser.T__18);
+				this.state = 178;
+				this.match(PyramidGrammarParser.SYMBOL_ID);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+			this.state = 181;
 			this.match(PyramidGrammarParser.T__6);
 			}
 		}
@@ -984,59 +1045,62 @@ export default class PyramidGrammarParser extends Parser {
 		return localctx;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,23,173,2,0,7,0,2,
+	public static readonly _serializedATN: number[] = [4,1,26,184,2,0,7,0,2,
 	1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,
 	10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,
-	7,17,2,18,7,18,2,19,7,19,2,20,7,20,1,0,4,0,44,8,0,11,0,12,0,45,1,1,1,1,
-	1,1,1,1,1,1,3,1,53,8,1,1,2,1,2,1,2,1,2,3,2,59,8,2,1,2,1,2,1,3,4,3,64,8,
-	3,11,3,12,3,65,1,4,1,4,1,4,1,4,1,4,1,5,1,5,1,6,1,6,1,6,1,6,3,6,79,8,6,1,
-	6,1,6,1,7,4,7,84,8,7,11,7,12,7,85,1,8,1,8,1,8,1,8,3,8,92,8,8,1,8,1,8,1,
-	9,1,9,1,9,1,9,1,10,1,10,1,10,1,10,3,10,104,8,10,1,10,1,10,1,10,1,10,3,10,
-	110,8,10,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,3,12,120,8,12,1,12,1,12,
-	1,13,4,13,125,8,13,11,13,12,13,126,1,14,1,14,1,14,1,14,1,14,1,15,1,15,1,
-	15,1,15,3,15,138,8,15,1,15,1,15,1,16,4,16,143,8,16,11,16,12,16,144,1,17,
-	1,17,1,17,1,17,3,17,151,8,17,1,17,1,17,1,18,1,18,1,18,1,18,3,18,159,8,18,
-	1,18,1,18,1,19,4,19,164,8,19,11,19,12,19,165,1,20,1,20,1,20,1,20,1,20,1,
-	20,0,0,21,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,0,7,
-	2,0,4,5,21,21,1,0,20,22,2,0,4,4,21,21,1,0,10,11,2,0,12,12,21,21,1,0,13,
-	15,2,0,5,5,21,21,171,0,43,1,0,0,0,2,52,1,0,0,0,4,54,1,0,0,0,6,63,1,0,0,
-	0,8,67,1,0,0,0,10,72,1,0,0,0,12,74,1,0,0,0,14,83,1,0,0,0,16,87,1,0,0,0,
-	18,95,1,0,0,0,20,109,1,0,0,0,22,111,1,0,0,0,24,115,1,0,0,0,26,124,1,0,0,
-	0,28,128,1,0,0,0,30,133,1,0,0,0,32,142,1,0,0,0,34,146,1,0,0,0,36,154,1,
-	0,0,0,38,163,1,0,0,0,40,167,1,0,0,0,42,44,3,2,1,0,43,42,1,0,0,0,44,45,1,
-	0,0,0,45,43,1,0,0,0,45,46,1,0,0,0,46,1,1,0,0,0,47,53,3,4,2,0,48,53,3,12,
-	6,0,49,53,3,24,12,0,50,53,3,30,15,0,51,53,3,36,18,0,52,47,1,0,0,0,52,48,
-	1,0,0,0,52,49,1,0,0,0,52,50,1,0,0,0,52,51,1,0,0,0,53,3,1,0,0,0,54,55,5,
-	1,0,0,55,56,5,21,0,0,56,58,5,2,0,0,57,59,3,6,3,0,58,57,1,0,0,0,58,59,1,
-	0,0,0,59,60,1,0,0,0,60,61,5,3,0,0,61,5,1,0,0,0,62,64,3,8,4,0,63,62,1,0,
-	0,0,64,65,1,0,0,0,65,63,1,0,0,0,65,66,1,0,0,0,66,7,1,0,0,0,67,68,7,0,0,
-	0,68,69,5,6,0,0,69,70,3,10,5,0,70,71,5,7,0,0,71,9,1,0,0,0,72,73,7,1,0,0,
-	73,11,1,0,0,0,74,75,5,4,0,0,75,76,5,21,0,0,76,78,5,2,0,0,77,79,3,14,7,0,
-	78,77,1,0,0,0,78,79,1,0,0,0,79,80,1,0,0,0,80,81,5,3,0,0,81,13,1,0,0,0,82,
-	84,3,16,8,0,83,82,1,0,0,0,84,85,1,0,0,0,85,83,1,0,0,0,85,86,1,0,0,0,86,
-	15,1,0,0,0,87,88,7,2,0,0,88,89,5,6,0,0,89,91,3,10,5,0,90,92,3,18,9,0,91,
-	90,1,0,0,0,91,92,1,0,0,0,92,93,1,0,0,0,93,94,5,7,0,0,94,17,1,0,0,0,95,96,
-	5,8,0,0,96,97,3,20,10,0,97,98,5,9,0,0,98,19,1,0,0,0,99,110,3,22,11,0,100,
-	103,3,22,11,0,101,102,7,3,0,0,102,104,3,20,10,0,103,101,1,0,0,0,103,104,
-	1,0,0,0,104,110,1,0,0,0,105,106,5,8,0,0,106,107,3,20,10,0,107,108,5,9,0,
-	0,108,110,1,0,0,0,109,99,1,0,0,0,109,100,1,0,0,0,109,105,1,0,0,0,110,21,
-	1,0,0,0,111,112,7,4,0,0,112,113,7,5,0,0,113,114,3,10,5,0,114,23,1,0,0,0,
-	115,116,5,12,0,0,116,117,5,21,0,0,117,119,5,2,0,0,118,120,3,26,13,0,119,
-	118,1,0,0,0,119,120,1,0,0,0,120,121,1,0,0,0,121,122,5,3,0,0,122,25,1,0,
-	0,0,123,125,3,28,14,0,124,123,1,0,0,0,125,126,1,0,0,0,126,124,1,0,0,0,126,
-	127,1,0,0,0,127,27,1,0,0,0,128,129,7,6,0,0,129,130,5,6,0,0,130,131,3,10,
-	5,0,131,132,5,7,0,0,132,29,1,0,0,0,133,134,5,16,0,0,134,135,5,21,0,0,135,
-	137,5,2,0,0,136,138,3,32,16,0,137,136,1,0,0,0,137,138,1,0,0,0,138,139,1,
-	0,0,0,139,140,5,3,0,0,140,31,1,0,0,0,141,143,3,34,17,0,142,141,1,0,0,0,
-	143,144,1,0,0,0,144,142,1,0,0,0,144,145,1,0,0,0,145,33,1,0,0,0,146,147,
-	5,21,0,0,147,148,5,6,0,0,148,150,3,10,5,0,149,151,3,18,9,0,150,149,1,0,
-	0,0,150,151,1,0,0,0,151,152,1,0,0,0,152,153,5,7,0,0,153,35,1,0,0,0,154,
-	155,5,5,0,0,155,156,5,21,0,0,156,158,5,2,0,0,157,159,3,38,19,0,158,157,
-	1,0,0,0,158,159,1,0,0,0,159,160,1,0,0,0,160,161,5,3,0,0,161,37,1,0,0,0,
-	162,164,3,40,20,0,163,162,1,0,0,0,164,165,1,0,0,0,165,163,1,0,0,0,165,166,
-	1,0,0,0,166,39,1,0,0,0,167,168,5,21,0,0,168,169,5,6,0,0,169,170,3,10,5,
-	0,170,171,5,7,0,0,171,41,1,0,0,0,16,45,52,58,65,78,85,91,103,109,119,126,
-	137,144,150,158,165];
+	7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,21,1,0,4,0,46,8,0,11,0,12,0,47,
+	1,1,1,1,1,1,1,1,1,1,1,1,3,1,56,8,1,1,2,1,2,1,2,1,2,3,2,62,8,2,1,2,1,2,1,
+	3,4,3,67,8,3,11,3,12,3,68,1,4,1,4,1,4,1,4,1,4,1,5,1,5,1,6,1,6,1,6,1,6,3,
+	6,82,8,6,1,6,1,6,1,7,4,7,87,8,7,11,7,12,7,88,1,8,1,8,1,8,1,8,3,8,95,8,8,
+	1,8,1,8,1,9,1,9,1,9,1,9,1,10,1,10,1,10,1,10,3,10,107,8,10,1,10,1,10,1,10,
+	1,10,3,10,113,8,10,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,3,12,123,8,12,
+	1,12,1,12,1,13,4,13,128,8,13,11,13,12,13,129,1,14,1,14,1,14,1,14,1,14,1,
+	15,1,15,1,15,1,15,3,15,141,8,15,1,15,1,15,1,16,4,16,146,8,16,11,16,12,16,
+	147,1,17,1,17,1,17,1,17,3,17,154,8,17,1,17,1,17,1,18,1,18,1,18,1,18,3,18,
+	162,8,18,1,18,1,18,1,19,4,19,167,8,19,11,19,12,19,168,1,20,1,20,1,20,1,
+	20,1,20,1,21,1,21,1,21,1,21,3,21,180,8,21,1,21,1,21,1,21,0,0,22,0,2,4,6,
+	8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,0,7,2,0,4,5,24,24,
+	1,0,23,25,2,0,4,4,24,24,1,0,10,11,2,0,12,12,24,24,1,0,13,15,2,0,5,5,24,
+	24,183,0,45,1,0,0,0,2,55,1,0,0,0,4,57,1,0,0,0,6,66,1,0,0,0,8,70,1,0,0,0,
+	10,75,1,0,0,0,12,77,1,0,0,0,14,86,1,0,0,0,16,90,1,0,0,0,18,98,1,0,0,0,20,
+	112,1,0,0,0,22,114,1,0,0,0,24,118,1,0,0,0,26,127,1,0,0,0,28,131,1,0,0,0,
+	30,136,1,0,0,0,32,145,1,0,0,0,34,149,1,0,0,0,36,157,1,0,0,0,38,166,1,0,
+	0,0,40,170,1,0,0,0,42,175,1,0,0,0,44,46,3,2,1,0,45,44,1,0,0,0,46,47,1,0,
+	0,0,47,45,1,0,0,0,47,48,1,0,0,0,48,1,1,0,0,0,49,56,3,4,2,0,50,56,3,12,6,
+	0,51,56,3,24,12,0,52,56,3,30,15,0,53,56,3,36,18,0,54,56,3,42,21,0,55,49,
+	1,0,0,0,55,50,1,0,0,0,55,51,1,0,0,0,55,52,1,0,0,0,55,53,1,0,0,0,55,54,1,
+	0,0,0,56,3,1,0,0,0,57,58,5,1,0,0,58,59,5,24,0,0,59,61,5,2,0,0,60,62,3,6,
+	3,0,61,60,1,0,0,0,61,62,1,0,0,0,62,63,1,0,0,0,63,64,5,3,0,0,64,5,1,0,0,
+	0,65,67,3,8,4,0,66,65,1,0,0,0,67,68,1,0,0,0,68,66,1,0,0,0,68,69,1,0,0,0,
+	69,7,1,0,0,0,70,71,7,0,0,0,71,72,5,6,0,0,72,73,3,10,5,0,73,74,5,7,0,0,74,
+	9,1,0,0,0,75,76,7,1,0,0,76,11,1,0,0,0,77,78,5,4,0,0,78,79,5,24,0,0,79,81,
+	5,2,0,0,80,82,3,14,7,0,81,80,1,0,0,0,81,82,1,0,0,0,82,83,1,0,0,0,83,84,
+	5,3,0,0,84,13,1,0,0,0,85,87,3,16,8,0,86,85,1,0,0,0,87,88,1,0,0,0,88,86,
+	1,0,0,0,88,89,1,0,0,0,89,15,1,0,0,0,90,91,7,2,0,0,91,92,5,6,0,0,92,94,3,
+	10,5,0,93,95,3,18,9,0,94,93,1,0,0,0,94,95,1,0,0,0,95,96,1,0,0,0,96,97,5,
+	7,0,0,97,17,1,0,0,0,98,99,5,8,0,0,99,100,3,20,10,0,100,101,5,9,0,0,101,
+	19,1,0,0,0,102,113,3,22,11,0,103,106,3,22,11,0,104,105,7,3,0,0,105,107,
+	3,20,10,0,106,104,1,0,0,0,106,107,1,0,0,0,107,113,1,0,0,0,108,109,5,8,0,
+	0,109,110,3,20,10,0,110,111,5,9,0,0,111,113,1,0,0,0,112,102,1,0,0,0,112,
+	103,1,0,0,0,112,108,1,0,0,0,113,21,1,0,0,0,114,115,7,4,0,0,115,116,7,5,
+	0,0,116,117,3,10,5,0,117,23,1,0,0,0,118,119,5,12,0,0,119,120,5,24,0,0,120,
+	122,5,2,0,0,121,123,3,26,13,0,122,121,1,0,0,0,122,123,1,0,0,0,123,124,1,
+	0,0,0,124,125,5,3,0,0,125,25,1,0,0,0,126,128,3,28,14,0,127,126,1,0,0,0,
+	128,129,1,0,0,0,129,127,1,0,0,0,129,130,1,0,0,0,130,27,1,0,0,0,131,132,
+	7,6,0,0,132,133,5,6,0,0,133,134,3,10,5,0,134,135,5,7,0,0,135,29,1,0,0,0,
+	136,137,5,16,0,0,137,138,5,24,0,0,138,140,5,2,0,0,139,141,3,32,16,0,140,
+	139,1,0,0,0,140,141,1,0,0,0,141,142,1,0,0,0,142,143,5,3,0,0,143,31,1,0,
+	0,0,144,146,3,34,17,0,145,144,1,0,0,0,146,147,1,0,0,0,147,145,1,0,0,0,147,
+	148,1,0,0,0,148,33,1,0,0,0,149,150,5,24,0,0,150,151,5,6,0,0,151,153,3,10,
+	5,0,152,154,3,18,9,0,153,152,1,0,0,0,153,154,1,0,0,0,154,155,1,0,0,0,155,
+	156,5,7,0,0,156,35,1,0,0,0,157,158,5,5,0,0,158,159,5,24,0,0,159,161,5,2,
+	0,0,160,162,3,38,19,0,161,160,1,0,0,0,161,162,1,0,0,0,162,163,1,0,0,0,163,
+	164,5,3,0,0,164,37,1,0,0,0,165,167,3,40,20,0,166,165,1,0,0,0,167,168,1,
+	0,0,0,168,166,1,0,0,0,168,169,1,0,0,0,169,39,1,0,0,0,170,171,5,24,0,0,171,
+	172,5,6,0,0,172,173,3,10,5,0,173,174,5,7,0,0,174,41,1,0,0,0,175,179,5,17,
+	0,0,176,180,5,18,0,0,177,178,5,19,0,0,178,180,5,24,0,0,179,176,1,0,0,0,
+	179,177,1,0,0,0,180,181,1,0,0,0,181,182,5,7,0,0,182,43,1,0,0,0,17,47,55,
+	61,68,81,88,94,106,112,122,129,140,147,153,161,168,179];
 
 	private static __ATN: ATN;
 	public static get _ATN(): ATN {
@@ -1096,6 +1160,9 @@ export class StatementContext extends ParserRuleContext {
 	}
 	public solutionStatement(): SolutionStatementContext {
 		return this.getTypedRuleContext(SolutionStatementContext, 0) as SolutionStatementContext;
+	}
+	public printStatement(): PrintStatementContext {
+		return this.getTypedRuleContext(PrintStatementContext, 0) as PrintStatementContext;
 	}
     public get ruleIndex(): number {
     	return PyramidGrammarParser.RULE_statement;
@@ -1585,6 +1652,28 @@ export class SolutionPropContext extends ParserRuleContext {
 	public accept<Result>(visitor: PyramidGrammarVisitor<Result>): Result {
 		if (visitor.visitSolutionProp) {
 			return visitor.visitSolutionProp(this);
+		} else {
+			return visitor.visitChildren(this);
+		}
+	}
+}
+
+
+export class PrintStatementContext extends ParserRuleContext {
+	constructor(parser?: PyramidGrammarParser, parent?: ParserRuleContext, invokingState?: number) {
+		super(parent, invokingState);
+    	this.parser = parser;
+	}
+	public SYMBOL_ID(): TerminalNode {
+		return this.getToken(PyramidGrammarParser.SYMBOL_ID, 0);
+	}
+    public get ruleIndex(): number {
+    	return PyramidGrammarParser.RULE_printStatement;
+	}
+	// @Override
+	public accept<Result>(visitor: PyramidGrammarVisitor<Result>): Result {
+		if (visitor.visitPrintStatement) {
+			return visitor.visitPrintStatement(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
