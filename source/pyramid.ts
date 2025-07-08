@@ -1,6 +1,7 @@
 import {open} from 'node:fs/promises';
 import PyramidInterpreter from './Interpreters/PyramidInterpreter';
 import SymbolTable from './SymbolTables/SymbolTable';
+import ResourceSymbolTree from './Trees/ResourceSymbolTree';
 
 async function main ()
 {
@@ -20,7 +21,21 @@ async function main ()
 	const interpreter = new PyramidInterpreter();
 	interpreter.scriptText = scriptText;
 	interpreter.symbolTable = new SymbolTable();
+	interpreter.resourceSymbolTree = new ResourceSymbolTree();
 	interpreter.execute();
+
+	process.stdin.on('readable', () =>
+	{
+		let chunk;
+
+		while ((chunk = process.stdin.read()) != null)
+			console.log(chunk);
+	});
+
+	process.on('SIGINT', () =>
+	{
+		console.log('SIGINT signal received.');
+	});
 }
 
 main();

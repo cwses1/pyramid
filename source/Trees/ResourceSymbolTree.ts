@@ -10,13 +10,9 @@ export default class ResourceSymbolTree
 	insertNode (node:SymbolTreeNode)
 	{
 		let nodeName = node.symbol.name;
-		console.log(`Inserting node ${nodeName}.`);
 
 		if (this.root == undefined)
-		{
-			console.log(`${nodeName} becomes root.`);
 			this.root = node;
-		}
 		else
 		{
 			let rootParentNode = this.getParentNodeWithChildNameFromRoot(nodeName);
@@ -25,19 +21,12 @@ export default class ResourceSymbolTree
 				this.linkChildToParent(node, rootParentNode);
 			else
 			{
-				console.log(`${nodeName} has no root parents.`);
-
 				let orphanParentNode = this.getParentNodeWithChildNameFromOrphans(nodeName);
 
 				if (orphanParentNode != undefined)
-				{
 					this.linkChildToParent(node, orphanParentNode);
-				}
 				else
-				{
-					console.log(`${nodeName} has no orphan parents.`);
 					this.orphanNodeMap[nodeName] = node;
-				}
 
 				this.reconcileRootWithOrphans();
 			}
@@ -46,9 +35,7 @@ export default class ResourceSymbolTree
 
 	linkChildToParent (childNode:SymbolTreeNode, parentNode:SymbolTreeNode)
 	{
-		console.log(`Linking ${childNode.symbol.name} to ${parentNode.symbol.name}.`);
 		childNode.parentNode = parentNode;
-		//parentNode.childNodes.push(childNode);
 	}
 
 	getParentNodeWithChildName (childNodeName:string) : SymbolTreeNode | undefined
@@ -72,13 +59,9 @@ export default class ResourceSymbolTree
 			let orphanNode = orphanNodeList[i];
 			let parentNode = orphanNode.getParentNodeWithChildName(childNodeName);
 			if (parentNode != undefined)
-			{
-				console.log(`Found parent node ${parentNode.symbol.name} for child ${childNodeName}.`);
 				return parentNode;
-			}
 		}
 
-		console.log(`Could not find a parent for child name ${childNodeName}.`);
 		return undefined;
 	}
 
@@ -88,8 +71,6 @@ export default class ResourceSymbolTree
 			return;
 
 		let parentNode = this.getParentNodeWithChildNameFromOrphans(this.root.symbol.name);
-
-		console.log(`${this.root.symbol.name} has no parents.`);
 
 		if (parentNode != undefined)
 		{

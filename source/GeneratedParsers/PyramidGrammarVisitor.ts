@@ -168,4 +168,3 @@ export default class PyramidGrammarVisitor<Result> extends ParseTreeVisitor<Resu
 	 */
 	visitPrintStatement?: (ctx: PrintStatementContext) => Result;
 }
-

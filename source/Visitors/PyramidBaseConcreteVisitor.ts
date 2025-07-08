@@ -10,6 +10,7 @@ import { ScriptContext,
 import PyramidGrammarVisitor from "../GeneratedParsers/PyramidGrammarVisitor";
 import Symbol from '../Entities/Symbol';
 import SymbolTable from '../SymbolTables/SymbolTable';
+import ResourceSymbolTree from '../Trees/ResourceSymbolTree';
 
 export default class PyramidBaseConcreteVisitor extends PyramidGrammarVisitor<any>
 {
@@ -77,4 +78,5 @@ export default class PyramidBaseConcreteVisitor extends PyramidGrammarVisitor<an
 
 	symbolTable: SymbolTable | undefined;
 	contextSymbol: Symbol | undefined;
+	resourceSymbolTree: ResourceSymbolTree;
 }

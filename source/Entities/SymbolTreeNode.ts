@@ -25,7 +25,6 @@ export default class SymbolTreeNode
 
 	hasName (name:string): boolean
 	{
-		console.log(`${this.symbol.name} == ${name}`);
 		return this.symbol.name == name;
 	}
 

@@ -1,4 +1,3 @@
-import SymbolTable from '../SymbolTables/SymbolTable';
 import Symbol from '../Entities/Symbol';
 import SymbolTreeNode from '../Entities/SymbolTreeNode';
 import ExprType from '../Common/ExprType';

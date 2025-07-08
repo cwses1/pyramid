@@ -1,16 +1,7 @@
-resource blokscript-source-files
-{
-	type: 'fileset';
-	include: '/Users/corywalker/Projects/blokscript/blokscript/**/*.cs';
-	exclude: '/Users/corywalker/Projects/blokscript/blokscript/bin';
-	exclude: '/Users/corywalker/Projects/blokscript/blokscript/object';
-	//watch: '';
-}
-
 app blokscript
 {
 	resource: blokscript-exe;
-	resource: blokscript-xml;
+	//resource: blokscript-xml;
 }
 
 resource blokscript-exe
@@ -21,12 +12,24 @@ resource blokscript-exe
 	task: build-blokscript-exe;
 }
 
+/*
 resource blokscript-xml
 {
 	type: 'file';
 	path: '/Users/corywalker/Projects/blokscript/blokscript/bin/Debug/net9.0/blokscript.xml';
 	resource: blokscript-source-files;
 	task: build-blokscript-xml;
+}
+*/
+
+resource blokscript-source-files
+{
+	type: 'file';
+	path: '/Users/corywalker/Projects/blokscript/blokscript/Program.cs';
+	//include: '/Users/corywalker/Projects/blokscript/blokscript/**/*.cs';
+	//exclude: '/Users/corywalker/Projects/blokscript/blokscript/bin';
+	//exclude: '/Users/corywalker/Projects/blokscript/blokscript/object';
+	//watch: '';
 }
 
 task build-blokscript-exe

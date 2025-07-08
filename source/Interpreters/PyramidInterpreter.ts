@@ -5,7 +5,9 @@ import SymbolTable from '../SymbolTables/SymbolTable';
 import PyramidBaseConcreteVisitor from '../Visitors/PyramidBaseConcreteVisitor';
 import PyramidSymbolVisitor from '../Visitors/PyramidSymbolVisitor';
 import PyramidPropVisitor from '../Visitors/PyramidPropVisitor';
+import PyramidDependencyVisitor from '../Visitors/PyramidDependencyVisitor';
 import PyramidExecutionVisitor from '../Visitors/PyramidExecutionVisitor';
+import ResourceSymbolTree from '../Trees/ResourceSymbolTree';
 
 export default class PyramidInterpreter
 {
@@ -13,12 +15,14 @@ export default class PyramidInterpreter
 	{
 		this.executeVisitor(new PyramidSymbolVisitor());
 		this.executeVisitor(new PyramidPropVisitor());
+		this.executeVisitor(new PyramidDependencyVisitor());
 		this.executeVisitor(new PyramidExecutionVisitor());
 	}
 
 	executeVisitor (visitor:PyramidBaseConcreteVisitor)
 	{
 		visitor.symbolTable = this.symbolTable;
+		visitor.resourceSymbolTree = this.resourceSymbolTree;
 		this.createParser().script().accept(visitor);
 	}
 
@@ -31,6 +35,7 @@ export default class PyramidInterpreter
 		return parser;
 	}
 
-	symbolTable: SymbolTable | undefined;
 	scriptText: string | undefined;
+	symbolTable: SymbolTable | undefined;
+	resourceSymbolTree: ResourceSymbolTree;
 }

@@ -1,3 +1,4 @@
+import {trim} from 'lodash';
 import { AppStatementContext,
 	AppPropContext,
 	ExprContext,
@@ -164,7 +165,7 @@ export default class PyramidPropVisitor extends PyramidBaseConcreteVisitor
 		if (ctx.STRING_LITERAL() != null)
 		{
 			expr.type = ExprType.String;
-			expr.value = ctx.STRING_LITERAL().getText();
+			expr.value = trim(ctx.STRING_LITERAL().getText(), '\'');
 		}
 		else if (ctx.SYMBOL_ID() != null)
 		{
