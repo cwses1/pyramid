@@ -1,8 +1,3 @@
-import Symbol from '../Entities/Symbol';
-import ExprTypeFormatter from './ExprTypeFormatter';
-import ExprType from '../Common/ExprType';
-import ExprFormatter from './ExprFormatter';
-import ResourceSymbolTree from '../Trees/ResourceSymbolTree';
 import SymbolTreeNode from '../Entities/SymbolTreeNode';
 
 export default class SymbolTreeNodeFormatter
@@ -15,7 +10,14 @@ export default class SymbolTreeNodeFormatter
 		let s = '';
 		for (let i = 0; i < indent; i++)
 			s += '\t';
-		s += node.symbol.name + ':\n';
+		s += node.symbol.name + ':';
+
+		if (node.parentNode == undefined)
+			s += ' (no parent)';
+		else
+			s += ` (parent: ${node.parentNode.symbol.name})`;
+
+		s += '\n';
 
 		node.childNodes.forEach((childNode) =>
 		{

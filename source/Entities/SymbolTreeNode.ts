@@ -1,7 +1,5 @@
 import Symbol from './Symbol';
 import TreeVisitor from '../TreeVisitors/TreeVisitor';
-import ResourceWatcher from '../ResourceWatchers/ResourceWatcher';
-import ResourceStateUpdateEvent from '../Entities/ResourceStateUpdateEvent';
 
 export default class SymbolTreeNode
 {
@@ -21,6 +19,22 @@ export default class SymbolTreeNode
 
 			if (node != undefined)
 				return node;
+		}
+
+		return undefined;
+	}
+
+	getNodeByName (name:string) : SymbolTreeNode | undefined
+	{
+		if (this.symbol.name == name)
+			return this;
+
+		for (let i = 0; i < this.childNodes.length; i++)
+		{
+			let nodeWithName = this.childNodes[i].getNodeByName(name);
+
+			if (nodeWithName != undefined)
+				return nodeWithName;
 		}
 
 		return undefined;

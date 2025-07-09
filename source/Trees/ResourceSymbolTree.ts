@@ -1,5 +1,6 @@
 import SymbolTreeNode from '../Entities/SymbolTreeNode';
 import TreeVisitor from '../TreeVisitors/TreeVisitor';
+import ResourceSymbolTreeFormatter from '../Formatters/ResourceSymbolTreeFormatter';
 
 export default class ResourceSymbolTree
 {
@@ -36,13 +37,45 @@ export default class ResourceSymbolTree
 
 	linkChildToParent (childNode:SymbolTreeNode, parentNode:SymbolTreeNode)
 	{
-		console.log(`Linking child node ${childNode.symbol.name} to parent node ${parentNode.symbol.name}.`);
 		childNode.parentNode = parentNode;
+	}
+
+	hasNodeByName (name:string) : boolean
+	{
+		return this.getNodeByName(name) != undefined;
+	}
+
+	getNodeByName (name:string) : SymbolTreeNode | undefined
+	{
+		let parentNode = this.getNodeByNameFromRoot(name);
+		return parentNode != undefined ? parentNode : this.getNodeByNameFromOrphans(name);
+	}
+
+	getNodeByNameFromRoot (name:string) : SymbolTreeNode | undefined
+	{
+		if (this.root == undefined)
+			return undefined;
+
+		return this.root.getNodeByName(name);
+	}
+
+	getNodeByNameFromOrphans (name:string) : SymbolTreeNode | undefined
+	{
+		let orphanNodeList = Object.values(this.orphanNodeMap);
+
+		for (let i = 0; i < orphanNodeList.length; i++)
+		{
+			let orphanNode = orphanNodeList[i];
+			let namedNode = orphanNode.getNodeByName(name);
+			if (namedNode != undefined)
+				return namedNode;
+		}
+
+		return undefined;
 	}
 
 	getParentNodeWithChildName (childNodeName:string) : SymbolTreeNode | undefined
 	{
-
 		let parentNode = this.getParentNodeWithChildNameFromRoot(childNodeName);
 		return parentNode != undefined ? parentNode : this.getParentNodeWithChildNameFromOrphans(childNodeName);
 	}

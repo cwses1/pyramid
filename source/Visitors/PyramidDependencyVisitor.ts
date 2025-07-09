@@ -19,7 +19,9 @@ export default class PyramidDependencyVisitor extends PyramidBaseConcreteVisitor
 		*/
 		let appSymbolName = ctx.SYMBOL_ID().getText();
 		let appSymbol = this.symbolTable.getSymbolByName(appSymbolName);
-		this.resourceSymbolTree.insertNode(SymbolTreeNodeFactory.createSymbolTreeNode(appSymbol));
+
+		if (!this.resourceSymbolTree.hasNodeByName(appSymbolName))
+			this.resourceSymbolTree.insertNode(SymbolTreeNodeFactory.createSymbolTreeNode(appSymbol));
 	}
 
 	visitResourceStatement = (ctx: ResourceStatementContext) =>
@@ -29,6 +31,8 @@ export default class PyramidDependencyVisitor extends PyramidBaseConcreteVisitor
 		*/
 		let resourceSymbolName = ctx.SYMBOL_ID().getText();
 		let resourceSymbol = this.symbolTable.getSymbolByName(resourceSymbolName);
-		this.resourceSymbolTree.insertNode(SymbolTreeNodeFactory.createSymbolTreeNode(resourceSymbol));
+
+		if (!this.resourceSymbolTree.hasNodeByName(resourceSymbolName))
+			this.resourceSymbolTree.insertNode(SymbolTreeNodeFactory.createSymbolTreeNode(resourceSymbol));
 	}
 }

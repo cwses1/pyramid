@@ -36,7 +36,6 @@ export default class ResourceStateUpdateTreeVisitor extends TreeVisitor
 		}
 		else
 			console.log(`No tasks for resource ${resourceSymbol.name}.`);
-
 	}
 
 	resourceStateUpdateEvent: ResourceStateUpdateEvent; // The original state update event that caused this visitor to be created and applied to the tree.

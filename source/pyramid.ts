@@ -4,10 +4,10 @@ import {open} from 'node:fs/promises';
 import PyramidInterpreter from './Interpreters/PyramidInterpreter';
 import SymbolTable from './SymbolTables/SymbolTable';
 import ResourceSymbolTree from './Trees/ResourceSymbolTree';
-import ResourceWatcherTreeVisitor from './TreeVisitors/ResourceWatcherTreeVisitor';
 import ResourceStateUpdateEvent from './Entities/ResourceStateUpdateEvent';
 import ResourceStateUpdateTreeVisitor from './TreeVisitors/ResourceStateUpdateTreeVisitor';
 import ResourceSymbolTreeFormatter from './Formatters/ResourceSymbolTreeFormatter';
+import ResourceWatcherTreeVisitor from './TreeVisitors/ResourceWatcherTreeVisitor';
 
 async function main ()
 {
@@ -41,14 +41,14 @@ async function main ()
 	interpreter.resourceSymbolTree = resourceSymbolTree;
 	interpreter.execute();
 
+	console.log(ResourceSymbolTreeFormatter.format(resourceSymbolTree));
+
 	//
 	// SET UP THE RESOURCE WATCHERS AND NOTIFICATION SYSTEM.
 	//
 	let resourceWatcherTreeVisitor = new ResourceWatcherTreeVisitor()
 	resourceWatcherTreeVisitor.notifyResourceStateUpdate = notifyResourceStateUpdate;
 	resourceSymbolTree.receiveTreeVisitor(resourceWatcherTreeVisitor);
-
-	console.log(ResourceSymbolTreeFormatter.format(resourceSymbolTree));
 
 	function notifyResourceStateUpdate (resourceStateUpdateEvent: ResourceStateUpdateEvent)
 	{
@@ -60,9 +60,9 @@ async function main ()
 		symbolTreeNode.receiveTreeVisitor(resourceStateUpdateTreeVisitor);
 	}
 
-	const rl = readline.createInterface({ input, output });
-	const answer = await rl.question('> ');
-	rl.close();
+	//const rl = readline.createInterface({ input, output });
+	//const answer = await rl.question('> ');
+	//rl.close();
 }
 
 main();

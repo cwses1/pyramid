@@ -6,8 +6,8 @@ import PyramidBaseConcreteVisitor from '../Visitors/PyramidBaseConcreteVisitor';
 import PyramidSymbolVisitor from '../Visitors/PyramidSymbolVisitor';
 import PyramidPropVisitor from '../Visitors/PyramidPropVisitor';
 import PyramidDependencyVisitor from '../Visitors/PyramidDependencyVisitor';
-import PyramidExecutionVisitor from '../Visitors/PyramidExecutionVisitor';
 import ResourceSymbolTree from '../Trees/ResourceSymbolTree';
+import ResourceSymbolTreeFormatter from '../Formatters/ResourceSymbolTreeFormatter';
 
 export default class PyramidInterpreter
 {
@@ -16,7 +16,7 @@ export default class PyramidInterpreter
 		this.executeVisitor(new PyramidSymbolVisitor());
 		this.executeVisitor(new PyramidPropVisitor());
 		this.executeVisitor(new PyramidDependencyVisitor());
-		//this.executeVisitor(new PyramidExecutionVisitor()); // Removed for tree visitor.  See TreeVisitors.
+		console.log(ResourceSymbolTreeFormatter.format(this.resourceSymbolTree));
 	}
 
 	executeVisitor (visitor:PyramidBaseConcreteVisitor)

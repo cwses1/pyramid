@@ -16,16 +16,22 @@ export default class SymbolTreeNodeFactory
 			let resourceProp = symbol.getProp('resource');
 
 			if (resourceProp.expr.type == ExprType.Symbol)
-				node.childNodes.push(SymbolTreeNodeFactory.createSymbolTreeNode(resourceProp.expr.value));
+			{
+				let childNode = SymbolTreeNodeFactory.createSymbolTreeNode(resourceProp.expr.value);
+				childNode.parentNode = node;
+				node.childNodes.push(childNode);
+			}
 			else if (resourceProp.expr.type == ExprType.List)
 				(resourceProp.expr.value as Expr[]).forEach((currentExpr) =>
 				{
-					node.childNodes.push(SymbolTreeNodeFactory.createSymbolTreeNode(currentExpr.value as Symbol));
+					let childNode = SymbolTreeNodeFactory.createSymbolTreeNode(currentExpr.value as Symbol);
+					childNode.parentNode = node;
+					node.childNodes.push(childNode);
 				});
 			else
 				throw new PyramidException('Cannot push resource to symbol tree node.');
 		}
-		
+
 		return node;
 	}
 }
