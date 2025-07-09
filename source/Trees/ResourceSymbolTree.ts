@@ -1,4 +1,5 @@
 import SymbolTreeNode from '../Entities/SymbolTreeNode';
+import TreeVisitor from '../TreeVisitors/TreeVisitor';
 
 export default class ResourceSymbolTree
 {
@@ -83,6 +84,12 @@ export default class ResourceSymbolTree
 	removeOrphanNode (node:SymbolTreeNode)
 	{
 		delete this.orphanNodeMap[node.symbol.name];
+	}
+
+	receiveTreeVisitor (visitor: TreeVisitor)
+	{
+		if (this.root != undefined)
+			visitor.visit(this.root);
 	}
 
 	orphanNodeMap:{[x:string]:SymbolTreeNode|undefined};

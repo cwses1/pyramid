@@ -15,7 +15,12 @@ export default class FileResourceWatcher extends ResourceWatcher
 		let fileWatcher = watch(this.filePath);
 
 		for await (const event of fileWatcher)
-			console.log(event);
+			this.receiveWatchEvent(event)
+	}
+
+	receiveWatchEvent (event:any)
+	{
+		console.log(event);
 	}
 
 	filePath:string|undefined;

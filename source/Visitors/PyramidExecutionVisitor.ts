@@ -3,11 +3,8 @@ import {
 	PrintStatementContext,
 	ResourceStatementContext
 	} from "../GeneratedParsers/PyramidGrammarParser";
-import SymbolTreeNodeFactory from '../EntityFactories/SymbolTreeNodeFactory';
 import PrintSymbolAppService from '../AppServices/PrintSymbolAppService';
 import PyramidBaseConcreteVisitor from './PyramidBaseConcreteVisitor';
-import ResourceSymbolTree from '../Trees/ResourceSymbolTree';
-import ResourceSymbolTreeFormatter from '../Formatters/ResourceSymbolTreeFormatter';
 import ResourceWatcherProvider from '../ResourceWatchers/ResourceWatcherProvider';
 import ResourceWatcherConfiguratorProvider from '../ResourceWatcherConfigurators/ResourceWatcherConfiguratorProvider';
 
@@ -50,7 +47,5 @@ export default class PyramidExecutionVisitor extends PyramidBaseConcreteVisitor
 		appService.symbolName = ctx.SYMBOL_ID() != null ? ctx.SYMBOL_ID().getText() : undefined;
 		appService.symbolTable = this.symbolTable;
 		appService.run();
-
-		//console.log(ResourceSymbolTreeFormatter.format(this.resourceSymbolTree));
 	}
 }

@@ -16,7 +16,7 @@ export default class PyramidInterpreter
 		this.executeVisitor(new PyramidSymbolVisitor());
 		this.executeVisitor(new PyramidPropVisitor());
 		this.executeVisitor(new PyramidDependencyVisitor());
-		this.executeVisitor(new PyramidExecutionVisitor());
+		//this.executeVisitor(new PyramidExecutionVisitor()); // Removed for tree visitor.  See TreeVisitors.
 	}
 
 	executeVisitor (visitor:PyramidBaseConcreteVisitor)

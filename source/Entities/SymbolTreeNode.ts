@@ -1,4 +1,5 @@
 import Symbol from './Symbol';
+import TreeVisitor from '../TreeVisitors/TreeVisitor';
 
 export default class SymbolTreeNode
 {
@@ -34,6 +35,16 @@ export default class SymbolTreeNode
 			return this;
 
 		return this.parentNode.getRoot();
+	}
+
+	receiveTreeVisitor (visitor: TreeVisitor)
+	{
+		visitor.visit(this);
+
+		this.childNodes.forEach((childNode) =>
+		{
+			visitor.visit(childNode);
+		});
 	}
 
 	symbol:Symbol;
