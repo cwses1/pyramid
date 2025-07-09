@@ -15,29 +15,6 @@ export default class PyramidExecutionVisitor extends PyramidBaseConcreteVisitor
 		super();
 	}
 
-	visitAppStatement = (ctx: AppStatementContext) =>
-	{
-		/*
-		appStatement: 'app' SYMBOL_ID '{' appPropList? '}';
-		*/
-		let appSymbolName = ctx.SYMBOL_ID().getText();
-		let appSymbol = this.symbolTable.getSymbolByName(appSymbolName);
-	}
-
-	visitResourceStatement = (ctx: ResourceStatementContext) =>
-	{
-		/*
-		resourceStatement: 'resource' SYMBOL_ID '{' resourcePropList? '}';
-		*/
-		let resourceSymbolName = ctx.SYMBOL_ID().getText();
-		let resourceSymbol = this.symbolTable.getSymbolByName(resourceSymbolName);
-		let resourceType:string = resourceSymbol.getProp('type').expr.value;
-
-		let resourceWatcher = ResourceWatcherProvider.getResourceWatcher(resourceType);
-		ResourceWatcherConfiguratorProvider.getConfigurator(resourceType).configure(resourceWatcher, resourceSymbol);
-		resourceWatcher.init();
-	}
-
 	visitPrintStatement = (ctx: PrintStatementContext) =>
 	{
 		/*

@@ -1,5 +1,4 @@
 import ResourceWatcherConfigurator from './ResourceWatcherConfigurator';
-import Symbol from '../Entities/Symbol';
 import ResourceWatcher from '../ResourceWatchers/ResourceWatcher';
 import FileResourceWatcher from '../ResourceWatchers/FileResourceWatcher';
 
@@ -10,9 +9,9 @@ export default class FileResourceWatcherConfigurator extends ResourceWatcherConf
 		super();
 	}
 
-	configure (resourceWatcher:ResourceWatcher, resourceSymbol:Symbol)
+	configure (resourceWatcher:ResourceWatcher)
 	{
 		let watcher = resourceWatcher as FileResourceWatcher;
-		watcher.filePath = resourceSymbol.getProp('path').expr.value as string;
+		watcher.filePath = watcher.symbol.getProp('path').expr.value as string;
 	}
 }

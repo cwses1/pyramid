@@ -1,5 +1,7 @@
 import Symbol from './Symbol';
 import TreeVisitor from '../TreeVisitors/TreeVisitor';
+import ResourceWatcher from '../ResourceWatchers/ResourceWatcher';
+import ResourceStateUpdateEvent from '../Entities/ResourceStateUpdateEvent';
 
 export default class SymbolTreeNode
 {
@@ -40,11 +42,6 @@ export default class SymbolTreeNode
 	receiveTreeVisitor (visitor: TreeVisitor)
 	{
 		visitor.visit(this);
-
-		this.childNodes.forEach((childNode) =>
-		{
-			visitor.visit(childNode);
-		});
 	}
 
 	symbol:Symbol;

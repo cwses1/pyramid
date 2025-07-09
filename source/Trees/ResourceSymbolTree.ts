@@ -36,6 +36,7 @@ export default class ResourceSymbolTree
 
 	linkChildToParent (childNode:SymbolTreeNode, parentNode:SymbolTreeNode)
 	{
+		console.log(`Linking child node ${childNode.symbol.name} to parent node ${parentNode.symbol.name}.`);
 		childNode.parentNode = parentNode;
 	}
 
